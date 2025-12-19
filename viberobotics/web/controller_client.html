@@ -7,56 +7,104 @@
 </head>
 
 <body style="font-family:sans-serif">
-    <h3>Keyboard capture (keymap)</h3>
-    <p>Click this page, then hold keys. Keep tab focused.</p>
+    <h3>Mode control</h3>
+    <div>Current mode: <strong id="mode-display">-</strong></div>
+    <div style="margin: 8px 0;">
+        <button data-mode="NONE">None</button>
+        <button data-mode="PD_STAND">PD Stand</button>
+        <button data-mode="RL">RL</button>
+    </div>
+    <h3>Vector</h3>
+    <p>Click this page, then tap WASD. Key releases will move the vector.</p>
     <pre id="status"></pre>
     <script>
         const status = document.getElementById("status");
-        let local = {};
+        const modeDisplay = document.getElementById("mode-display");
+        const allowed = new Set(["KeyW", "KeyA", "KeyS", "KeyD", "KeyQ", "KeyE"]);
+        const moves = {
+            KeyW: { x: 0, y: 0.1, yaw: 0 },
+            KeyS: { x: 0, y: -0.1, yaw: 0 },
+            KeyA: { x: -0.1, y: 0, yaw: 0 },
+            KeyD: { x: 0.1, y: 0, yaw: 0 },
+            KeyQ: { x: 0, y: 0, yaw: -0.1 },
+            KeyE: { x: 0, y: 0, yaw: 0.1 },
+        };
+        const vector = { x: 0, y: 0, yaw: 0 };
+        let mode = "NONE";
+        const round1 = (v) => Math.round(v * 10) / 10;
 
-        function post(state) {
-            fetch("/state", {
+        async function updateFromResponse(res) {
+            if (!res || !res.ok) return;
+            try {
+                const data = await res.json();
+                if (data && data.vector) {
+                    vector.x = data.vector.x;
+                    vector.y = data.vector.y;
+                    vector.yaw = data.vector.yaw;
+                }
+                if (data && data.mode) {
+                    mode = data.mode;
+                }
+            } catch {
+                // ignore parse errors
+            }
+            renderStatus();
+        }
+
+        async function postState(state) {
+            const res = await fetch("/state", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(state),
                 keepalive: true,
-            }).catch(() => { });
+            }).catch(() => null);
+            await updateFromResponse(res);
         }
 
-        function setKey(code, down) {
-            local[code] = down;
-            // Send only the change (patch), not the whole map
-            post({ code, down, t: performance.now() });
-            renderStatus();
+        async function postMode(newMode) {
+            const res = await fetch("/mode", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ mode: newMode }),
+                keepalive: true,
+            }).catch(() => null);
+            await updateFromResponse(res);
         }
 
         function renderStatus() {
-            const pressed = Object.entries(local)
-                .filter(([, isDown]) => isDown)
-                .map(([code]) => code)
-                .sort();
-            const pretty = [
-                `Pressed: ${pressed.join(", ") || "none"}`,
-                "",
-                JSON.stringify(local, null, 2),
-            ].join("\n");
-            status.textContent = pretty;
+            modeDisplay.textContent = mode;
+            status.textContent = JSON.stringify(vector, null, 2);
         }
 
         window.addEventListener("keydown", (e) => {
-            if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(e.key)) e.preventDefault();
-            setKey(e.code, true);
+            if (!allowed.has(e.code)) return;
+            e.preventDefault();
         });
 
-        window.addEventListener("keyup", (e) => setKey(e.code, false));
-
-        // If the tab loses focus, release all keys (important!)
-        window.addEventListener("blur", () => {
-            for (const k of Object.keys(local)) local[k] = false;
-            // bulk release
-            fetch("/release_all", { method: "POST", keepalive: true }).catch(() => { });
-            renderStatus();
+        window.addEventListener("keyup", (e) => {
+            if (!allowed.has(e.code)) return;
+            e.preventDefault();
+            const move = moves[e.code];
+            if (move) {
+                vector.x = round1(vector.x + move.x);
+                vector.y = round1(vector.y + move.y);
+                vector.yaw = round1(vector.yaw + move.yaw);
+            }
+            postState({ vector: vector, t: performance.now() });
         });
+
+        document.querySelectorAll("[data-mode]").forEach((btn) => {
+            btn.addEventListener("click", () => postMode(btn.dataset.mode));
+        });
+
+        async function initStatus() {
+            const res = await fetch("/status").catch(() => null);
+            await updateFromResponse(res);
+        }
+
+        renderStatus();
+        initStatus();
+
     </script>
 </body>
 

@@ -1,0 +1,15 @@
+sim:
+  dt: 0.002
+  asset_path: "mujoco/SundayA1/scene.xml"
+control:
+  kp_torque: 20
+  kd_torque: 1
+policy:
+  model_path: "models/policy_leo.pt"
+default_qpos: [
+  0, 0, 0, 0, 0,
+  0, 0.7, 0, 0, 0,
+  0, 0, 0, 0, 0,
+  0, -0.7, 0, 0, 0,
+  0
+]
