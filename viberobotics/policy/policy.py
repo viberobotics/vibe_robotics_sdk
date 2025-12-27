@@ -33,6 +33,7 @@ class Policy:
         self.policy_config = config.policy_config
         
         self.policy = torch.jit.load(self.policy_config.model_path)
+        self.policy.eval()
         
         policy_cfg = config.policy_config
         self.buffer = Buffer(obs_dim=policy_cfg.num_observations, horizon=policy_cfg.horizon)
@@ -48,6 +49,9 @@ class Policy:
                   vx: float,
                   vy: float,
                   vyaw: float) -> np.ndarray:
+        dof_pos = mj_to_policy(dof_pos)
+        dof_vel = mj_to_policy(dof_vel)
+        
         command = np.array([vx, vy, vyaw], dtype=np.float32)
         smoothed_command = self.smoothed_command.apply(command)
         
@@ -59,12 +63,15 @@ class Policy:
             dof_vel,
             self.actions
         ])
-        self.buffer.add(obs)
         
-        if self.buffer.ptr < self.buffer.horizon:
+        self.buffer.add(obs)
+        if not self.buffer.is_full():
             return policy_to_mj(self.default_qpos)
 
         obs_horizon = self.buffer.get().astype(np.float32, copy=False)
         self.actions[:] = self.policy(torch.from_numpy(obs_horizon).unsqueeze(0)).detach().numpy()
-        
-        return policy_to_mj(self.default_qpos + self.policy_config.action_scale * self.actions)
+        dof_targets = self.default_qpos + self.policy_config.action_scale * self.actions
+        # print(np.round(obs_horizon, 3))
+        # print(dof_targets, self.policy_config.action_scale, self.actions)
+        # input()
+        return policy_to_mj(dof_targets)

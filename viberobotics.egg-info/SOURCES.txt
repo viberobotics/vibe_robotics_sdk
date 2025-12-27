@@ -1,5 +1,6 @@
 LICENSE
 setup.py
+viberobotics/constants.py
 viberobotics.egg-info/PKG-INFO
 viberobotics.egg-info/SOURCES.txt
 viberobotics.egg-info/dependency_links.txt

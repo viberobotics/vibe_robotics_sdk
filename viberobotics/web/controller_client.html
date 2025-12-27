@@ -34,19 +34,20 @@
         const round1 = (v) => Math.round(v * 10) / 10;
 
         async function updateFromResponse(res) {
-            if (!res || !res.ok) return;
-            try {
-                const data = await res.json();
-                if (data && data.vector) {
-                    vector.x = data.vector.x;
-                    vector.y = data.vector.y;
-                    vector.yaw = data.vector.yaw;
+            if (res && res.ok) {
+                try {
+                    const data = await res.json();
+                    if (data && data.vector) {
+                        vector.x = data.vector.x;
+                        vector.y = data.vector.y;
+                        vector.yaw = data.vector.yaw;
+                    }
+                    if (data && data.mode) {
+                        mode = data.mode;
+                    }
+                } catch {
+                    // ignore parse errors
                 }
-                if (data && data.mode) {
-                    mode = data.mode;
-                }
-            } catch {
-                // ignore parse errors
             }
             renderStatus();
         }
@@ -102,7 +103,6 @@
             await updateFromResponse(res);
         }
 
-        renderStatus();
         initStatus();
 
     </script>

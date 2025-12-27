@@ -7,6 +7,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse
 from pathlib import Path
 import numpy as np
+import webbrowser
+
 def round1(value: float) -> float:
     return round(value, 1)
 
@@ -102,12 +104,26 @@ class ControllerWebServer:
         
         def log_message(self, format, *args):
             return
-        
-    def __init__(self):
+
+    @staticmethod
+    def _normalize_mode(mode_value):
+        if isinstance(mode_value, ControlMode):
+            return mode_value
+        if isinstance(mode_value, str):
+            try:
+                return ControlMode[mode_value.upper()]
+            except KeyError as exc:
+                raise ValueError(f"Unknown control mode '{mode_value}'") from exc
+        try:
+            return ControlMode(int(mode_value))
+        except Exception as exc:
+            raise ValueError(f"Unknown control mode '{mode_value}'") from exc
+
+    def __init__(self, initial_mode=ControlMode.NONE):
         self.lock = threading.Lock()
         self.state = {
             'vector': {"x": 0.0, "y": 0.0, "yaw": 0.0},
-            'mode': ControlMode.NONE
+            'mode': self._normalize_mode(initial_mode)
         }
     
     def start_server(self, host="127.0.0.1", port=3000):
@@ -118,6 +134,7 @@ class ControllerWebServer:
         t = threading.Thread(target=httpd.serve_forever, daemon=True)
         t.start()
         print(f"Controller web server listening on http://{host}:{port}")
+        webbrowser.open(f"http://{host}:{port}")
     
     def get_key_state_snapshot(self):
         with self.lock:
@@ -125,7 +142,7 @@ class ControllerWebServer:
     
     def get_control_input(self):
         with self.lock:
-            return np.array([self.state['vector']["x"], self.state['vector']["y"]])
+            return np.array([self.state['vector']["x"], self.state['vector']["y"], self.state['vector']["yaw"]], dtype=np.float32)
     
     def get_control_mode(self):
         with self.lock:

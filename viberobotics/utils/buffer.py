@@ -21,3 +21,5 @@ class Buffer:
         return np.reshape(self.obs, (self.obs_dim * self.horizon,)) # oldest obs first
         # return self.obs[::-1].reshape(self.obs_dim * self.horizon) # newest obs first
 
+    def is_full(self):
+        return self.ptr >= self.horizon
