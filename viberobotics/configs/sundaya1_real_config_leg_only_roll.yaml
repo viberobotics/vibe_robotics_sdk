@@ -1,0 +1,24 @@
+sim:
+  dt: 0.002
+  asset_path: "mujoco/SundayA1_ankle_roll/scene.xml"
+  urdf_path: "viberobotics/assets/urdf/SundayA1_Leg_only_roll/robot.urdf"
+real:
+  imu_port:
+    port: "/dev/ttyACM0"
+    baudrate: 9600
+  motor_controllers:
+    - name: "leg"
+      motor_ids: [6, 7, 8, 9, 10, 16, 17, 18, 19, 20]
+      serial_config:
+        port: "/dev/ttyACM0"
+        baudrate: 1000000
+  calibration_file: "configs/sundaya1_real_calibration.yaml"
+control:
+  kp_torque: 20
+  kd_torque: 1
+policy:
+  model_path: "models/policy_leo.pt"
+default_qpos: [
+  0, 0.7, 0, 0, 0,
+  0, -0.7, 0, 0, 0,
+]

@@ -20,6 +20,9 @@ class MotorController:
         self.groupSyncRead_Load = GroupSyncRead(self.packetHandler, SMS_STS_PRESENT_LOAD_L, 2)
         
         self.n_motors = len(motor_ids)
+        
+        self.cached_positions = np.zeros(self.n_motors)
+        self.cached_speeds = np.zeros(self.n_motors)
     
     def _init_port_handler(self):
         self.portHandler = PortHandler(self.port_name)
@@ -46,7 +49,7 @@ class MotorController:
                         raise GroupAddParamFailedException()
                 scs_comm_result = self.groupSyncRead.txRxPacket()
                 if scs_comm_result != COMM_SUCCESS:
-                    raise GroupSyncReadFailedException()
+                    raise GroupSyncReadFailedException(f'failed: {self.motor_ids}')
                 agg = []
                 init = False
                 for i in range(len(self.motor_ids)):
@@ -67,12 +70,23 @@ class MotorController:
         return decorator
     
     @_group_read(SMS_STS_PRESENT_POSITION_L, 4)
-    def receive_raw_motor_states(self, motor_id):
+    def _receive_raw_motor_states(self, motor_id):
         pos = self.groupSyncRead.getData(motor_id, SMS_STS_PRESENT_POSITION_L, 2),
         speed = self.groupSyncRead.getData(motor_id, SMS_STS_PRESENT_SPEED_L, 2)
         speed = self.packetHandler.scs_tohost(speed, 15)
         # print(f'Received motor {motor_id} state: pos {pos}, speed {speed}')
         return pos, speed
+    
+    def receive_raw_motor_states(self):
+        try:
+            raw_positions, raw_speeds = self._receive_raw_motor_states()
+            self.cached_positions = raw_positions
+            self.cached_speeds = raw_speeds
+        except MotorException as e:
+            print(f'Warning: Failed to read motor states: {self.motor_ids}. Using cached values.')
+            raw_positions = self.cached_positions
+            raw_speeds = self.cached_speeds
+        return raw_positions, raw_speeds
     
     def receive_motor_states(self):
         raw_positions, raw_speeds = self.receive_raw_motor_states()
@@ -93,6 +107,7 @@ class MotorController:
             print(f'Setting motor {motor_id} to mode {mode}')
             scs_comm_result, scs_error = self.packetHandler.write1ByteTxRx(motor_id, SMS_STS_MODE, mode)
             if scs_comm_result != COMM_SUCCESS:
+
                 raise WriteFailedException(self.packetHandler.getTxRxResult(scs_comm_result), scs_error)
     
     def set_duty(self, torques):

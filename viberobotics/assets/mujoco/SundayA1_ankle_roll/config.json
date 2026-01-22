@@ -1,0 +1,89 @@
+{
+    // Onshape URL of the assembly
+    "url": "https://cad.onshape.com/documents/e24e4ff371fec5e0fbb4a529/w/4a9fa4220522a6f1194ea957/e/8ed7dff1c3905da3bc629e00",
+    // Output format
+    "output_format": "mujoco",
+    "assemblyName": "Robot",
+
+    "joint_properties": {
+        // Default properties for all joints
+        "*": {
+            "frictionloss": 0.1,
+            "armature": 0.028,
+            "damping": 0
+            // ...
+        },
+        // Set the properties for a specific joint
+        "right_shoulder_roll": {
+            "limits": [-1.7, 1.7]
+        },
+        "right_shoulder_pitch": {
+            "limits": [-0.785, 0.785]
+        },
+        "right_elbow": {
+            "limits": [-1.3, 1.7]
+        },
+        "right_wrist": {
+            "limits": [-1, 1]
+        },
+        "right_hand": {
+            "limits": [-2.5, 0]
+        },
+        "right_hip_roll": {
+            "limits": [-1, 1]
+        },
+        "right_hip_pitch": {
+            "limits": [-1.6, 1.6]
+        },
+        "right_hip_yaw": {
+            "limits": [-0.785, 0.785]
+        },
+        "right_knee": {
+            "limits": [-1.23, 1.6]
+        },
+        "right_ankle": {
+            "limits": [-1.6, 1.6]
+        },
+        "left_shoulder_roll": {
+            "limits": [-1.7, 1.7]
+        },
+        "left_shoulder_pitch": {
+            "limits": [-0.785, 0.785]
+        },
+        "left_elbow": {
+            "limits": [-1.7, 1.3]
+        },
+        "left_wrist": {
+            "limits": [-1, 1]
+        },
+        "left_hand": {
+            "limits": [0, 2.5]
+        },
+        "left_hip_roll": {
+            "limits": [-1, 1]
+        },
+        "left_hip_pitch": {
+            "limits": [-1.6, 1.6]
+        },
+        "left_hip_yaw": {
+            "limits": [-0.785, 0.785]
+        },
+        "left_knee": {
+            "limits": [-1.23, 1.6]
+        },
+        "left_ankle": {
+            "limits": [-1.6, 1.6]
+        },
+        "kneck": {
+            "limits": [-1, 1]
+        }
+    }
+
+    // "ignore": {
+    //     // Ignore visual for visual
+        
+    //     "*" : "collision"
+    // }
+
+
+}

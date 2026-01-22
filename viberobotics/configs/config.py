@@ -9,6 +9,7 @@ import yaml
 class SundayA1SimConfig:
     dt: float = 0.002
     asset_path: str = ""
+    urdf_path: str = ""
 
 @dataclass
 class SerialConfig:
@@ -20,11 +21,14 @@ class MotorControllerConfig:
     name: str = "DefaultMotorController"
     motor_ids: List[int] = None
     serial_config: SerialConfig = None
+    sign_change: List[int] = None
+    sim_idxs: List[int] = None
 
 @dataclass
 class SundayA1RealConfig:
     imu_port: SerialConfig
     motor_controllers: List[MotorControllerConfig] = None
+    motor_order: dict[int, int] = None # motor_orders[real id] = sim index
     
 @dataclass
 class SundayA1ControlConfig:
@@ -55,7 +59,8 @@ class SundayA1Config:
     policy_config: SundayA1PolicyConfig
     
 
-def load_config(config_path):
+def load_config(config_path, from_config_dir=True):
+    config_path = CONFIG_DIR / config_path if from_config_dir else config_path
     with open(config_path, 'r') as f:
         cfg_dict = yaml.safe_load(f)
     sim_cfg = SundayA1SimConfig(**cfg_dict.get('sim', {}))
@@ -63,7 +68,8 @@ def load_config(config_path):
         imu_port=SerialConfig(**cfg_dict.get('real', {}).get('imu_port', {})),
         motor_controllers=[
             MotorControllerConfig(**{**motor, 'serial_config': SerialConfig(**motor.get('serial_config', {}))}) for motor in cfg_dict.get('real', {}).get('motor_controllers', [])
-        ]
+        ],
+        motor_order=cfg_dict.get('real', {}).get('motor_order', {})
     )
     control_cfg = SundayA1ControlConfig(**cfg_dict.get('control', {}))
     policy_cfg = SundayA1PolicyConfig(**cfg_dict.get('policy', {}))

@@ -8,6 +8,7 @@ import numpy as np
 from pathlib import Path
 from scipy.spatial.transform import Rotation as R
 from loop_rate_limiters import RateLimiter
+import argparse
 
 import qpsolvers
 import pink
@@ -33,16 +34,25 @@ def mj_to_urdf(q):
         9, 8, 7, 6, 5,]
     ]
 
-RIGHT_FOOT_OFFSET = [-0.01743562, 0.0320829, -0.04188434]
-LEFT_FOOT_OFFSET = [0.02135078, 0.0320829, -0.04188434]
+RIGHT_FOOT_OFFSET = [ 0.08673298, 0.01949158, -0.07612692]
+LEFT_FOOT_OFFSET = [ -0.08673298, 0.01949158, -0.07612692]
+FOOT1_NAME = "foot1016"
+FOOT2_NAME = "foot1016_2"
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--real', action='store_true', help='Use real robot')
+    parser.add_argument('--disable_ik', action='store_true', help='Use real robot')
+    parser.add_argument('--config', type=str, default='viberobotics/configs/sundaya1_real_config_leg_only.yaml', help='Config file path')
+    args = parser.parse_args()
+    
     server = viser.ViserServer()
     
-    cfg = load_config("viberobotics/configs/sundaya1_real_config_leg_only.yaml")
+    cfg = load_config(args.config)
     
-    motor_manager = MotorControllerManager(cfg.real_config.motor_controllers, mode=0)
-    motor_manager.set_positions(cfg.default_qpos, 0, 5)
+    if args.real:
+        motor_manager = MotorControllerManager(cfg.real_config.motor_controllers, mode=0)
+        motor_manager.set_positions(cfg.default_qpos, 0, 5)
     
     robot = pin.RobotWrapper.BuildFromMJCF(
         filename=(Path(cfg.sim_config.asset_path).parent / "robot.xml").as_posix(),
@@ -54,24 +64,29 @@ if __name__ == "__main__":
     pin.forwardKinematics(robot.model, robot.data, default_q)
     pin.updateFramePlacements(robot.model, robot.data)
     
-    fid_right = robot.model.getFrameId("foot1016")
+    fid_right = robot.model.getFrameId(FOOT1_NAME)
     right_foot_pos = robot.data.oMf[fid_right].translation.copy()
     r_right = R.from_matrix(robot.data.oMf[fid_right].rotation)
     right_foot_rot = r_right.as_quat()
     
-    fid_left = robot.model.getFrameId("foot1016_2")
+    fid_left = robot.model.getFrameId(FOOT2_NAME)
     left_foot_pos = robot.data.oMf[fid_left].translation.copy()
     r_left = R.from_matrix(robot.data.oMf[fid_left].rotation)
     left_foot_rot = r_left.as_quat()
     
     tasks = [
         FrameTask(
-            "foot1016",
+            FOOT1_NAME,
             position_cost=4.0,
             orientation_cost=1.0,
         ),
         FrameTask(
-            "foot1016_2",
+            FOOT2_NAME,
+            position_cost=4.0,
+            orientation_cost=1.0,
+        ),
+        FrameTask(
+            "base",
             position_cost=4.0,
             orientation_cost=1.0,
         ),
@@ -88,7 +103,7 @@ if __name__ == "__main__":
     robot_base.position = (0, 0, 0.207)
     viser_urdf = ViserUrdf(
         server,
-        urdf_or_path=Path('/home/danielchen09/dc/vibe/viberobotics-python/viberobotics/assets/urdf/SundayA1_Leg_only/robot.urdf'), 
+        urdf_or_path=Path(cfg.sim_config.urdf_path),
         load_meshes=True,
         load_collision_meshes=False,
         root_node_name="/sunday_a1"
@@ -119,7 +134,9 @@ if __name__ == "__main__":
     @right_foot_control.on_update
     def _(_) -> None:
         tasks[0].transform_target_to_world.translation = right_foot_control.position - RIGHT_FOOT_OFFSET
-        
+    @right_foot_control.on_drag_end
+    def _(_) -> None:
+        print(f'Right foot offset: {right_foot_control.position - right_foot_pos}')
     
     left_foot_control = server.scene.add_transform_controls(
         f"/left_foot_control",
@@ -134,16 +151,39 @@ if __name__ == "__main__":
     @left_foot_control.on_update
     def _(_) -> None:
         tasks[1].transform_target_to_world.translation = left_foot_control.position - LEFT_FOOT_OFFSET
+    @left_foot_control.on_drag_end
+    def _(_) -> None:
+        print(f'Left foot offset: {left_foot_control.position - left_foot_pos}')
     
+    base_control = server.scene.add_transform_controls(
+        f"/base_control",
+        depth_test=False,
+        scale=0.2,
+        disable_axes=False,
+        disable_sliders=True,
+        disable_rotations=True,
+        visible=True,
+        position=robot_base.position.copy(),
+    )
+    @base_control.on_update
+    def _(_) -> None:
+        tasks[2].transform_target_to_world.translation = base_control.position
+    @base_control.on_drag_end
+    def _(_) -> None:
+        print(f'Base position: {base_control.position}')
     
     gui_reset_button = server.gui.add_button("reset")
     @gui_reset_button.on_click
     def _(_) -> None:
+        global configuration
         print('reset')
+        configuration = pink.Configuration(robot.model, robot.data, default_q)
         left_foot_control.position = left_foot_pos + LEFT_FOOT_OFFSET
         right_foot_control.position = right_foot_pos + RIGHT_FOOT_OFFSET
+        base_control.position = (0, 0, 0.207)
         tasks[0].transform_target_to_world.translation = right_foot_pos
         tasks[1].transform_target_to_world.translation = left_foot_pos
+        tasks[2].transform_target_to_world.translation = base_control.position
             
     
     dt = 1 / 200
@@ -160,8 +200,10 @@ if __name__ == "__main__":
         )
         configuration.integrate_inplace(velocity, dt)
         q = configuration.q
-        # motor_manager.set_positions(q[7:], 0, 5)
-        viser_urdf.update_cfg(mj_to_urdf(q[7:]))
-        robot_base.position = q[:3] + np.array([0, 0, 0.207])
-        robot_base.wxyz = (q[6], q[3], q[4], q[5])
+        if args.real:
+            motor_manager.set_positions(q[7:], 0, 5)
+        if not args.disable_ik:
+            viser_urdf.update_cfg(mj_to_urdf(q[7:]).copy())
+            robot_base.position = q[:3] + np.array([0, 0, 0.207])
+            robot_base.wxyz = (q[6], q[3], q[4], q[5])
         rate.sleep()

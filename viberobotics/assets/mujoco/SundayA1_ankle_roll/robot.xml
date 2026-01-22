@@ -1,0 +1,216 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape https://cad.onshape.com/documents/e24e4ff371fec5e0fbb4a529/w/4a9fa4220522a6f1194ea957/e/8ed7dff1c3905da3bc629e00 -->
+<mujoco model="SundayA1_Mujoco">
+  <compiler angle="radian" meshdir="assets" autolimits="true"/>
+  <default>
+    <default class="SundayA1_Mujoco">
+      <joint frictionloss="0.052" damping=".6" armature="0.028" actuatorfrcrange="-1.6 1.6"/>
+      <motor ctrllimited="true" ctrlrange="-1.6 1.6" gear="1"/>
+      <default class="visual">
+        <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+      </default>
+    </default>
+    <default class="collision">
+      <geom material="collision_material" condim="3" contype="0" conaffinity="1" priority="1" group="1" solref="0.005 1" friction="0.64" />
+      <equality solimp="0.99 0.999 1e-05" solref="0.005 1" />
+    </default>
+    <mesh maxhullvert="64" />
+  </default>
+  <worldbody>
+    <!-- Link body -->
+    <body name="base" pos="0 0 0.207" quat="1 0 0 0" childclass="SundayA1_Mujoco">
+      <freejoint name="floating_base"/>
+      <site name="imu_site" pos="0 0 0" quat="1 0 0 0" size=".01"/>
+      <inertial pos="2.7095e-05 0.0575604 0.0537062" mass="0.460845" fullinertia="0.000633814 0.000946769 0.000831012 2.40779e-08 6.97121e-07 2.0973e-05"/>
+      <!-- Part internal_weight_200g -->
+      <geom type="mesh" class="visual" pos="-0.0244373 0.0729013 0.0940632" quat="2.22865e-16 -0.707107 0.707107 -2.22865e-16" mesh="internal_weight_200g" material="internal_weight_200g_material"/>
+      <!-- <geom type="mesh" class="collision" pos="-0.0244373 0.0729013 0.0940632" quat="2.22865e-16 -0.707107 0.707107 -2.22865e-16" mesh="internal_weight_200g" material="internal_weight_200g_material"/> -->
+      <!-- Part sts3215 -->
+      <geom type="mesh" class="visual" pos="0.153454 0.118361 0.123383" quat="0.298836 0.640856 -0.640856 -0.298836" mesh="sts3215" material="sts3215_material"/>
+      <!-- <geom type="mesh" class="collision" pos="0.153454 0.118361 0.123383" quat="0.298836 0.640856 -0.640856 -0.298836" mesh="sts3215" material="sts3215_material"/> -->
+      <!-- Part lower_torso -->
+      <geom type="mesh" class="visual" pos="-7.97973e-17 0.0538513 0.134639" quat="1 -0 -4.35416e-16 -1.73472e-18" mesh="lower_torso" material="lower_torso_material"/>
+      <!-- <geom type="mesh" class="collision" pos="-7.97973e-17 0.0538513 0.134639" quat="1 -0 -4.35416e-16 -1.73472e-18" mesh="lower_torso" material="lower_torso_material"/> -->
+      <!-- Part leg_foundation1029 -->
+      <geom type="mesh" class="visual" pos="0.0279977 0.0538513 0.0442201" quat="0.241845 0.664463 0.664463 0.241845" mesh="leg_foundation1029" material="leg_foundation1029_material"/>
+      <!-- <geom type="mesh" class="collision" pos="0.0279977 0.0538513 0.0442201" quat="0.241845 0.664463 0.664463 0.241845" mesh="leg_foundation1029" material="leg_foundation1029_material"/> -->
+      <!-- Part sts3215_2 -->
+      <geom type="mesh" class="visual" pos="-0.153294 -0.0106587 0.123574" quat="0.298836 0.640856 0.640856 0.298836" mesh="sts3215" material="sts3215_material"/>
+      <!-- <geom type="mesh" class="collision" pos="-0.153294 -0.0106587 0.123574" quat="0.298836 0.640856 0.640856 0.298836" mesh="sts3215" material="sts3215_material"/> -->
+      <!-- Part leg_foundation1029_2 -->
+      <geom type="mesh" class="visual" pos="-0.0279977 0.0538513 0.0442201" quat="0.241845 0.664463 -0.664463 -0.241845" mesh="leg_foundation1029" material="leg_foundation1029_material"/>
+      <!-- <geom type="mesh" class="collision" pos="-0.0279977 0.0538513 0.0442201" quat="0.241845 0.664463 -0.664463 -0.241845" mesh="leg_foundation1029" material="leg_foundation1029_material"/> -->
+      <!-- Link hip -->
+      <body name="hip" pos="0.0618745 0.0538513 0.0334838" quat="0.298836 0.640856 -0.640856 -0.298836">
+        <!-- Joint from body to hip -->
+        <joint axis="0 0 1" name="right_hip_roll" type="hinge" range="-1 1" frictionloss="0.1" armature="0.028" damping="0"/>
+        <inertial pos="0.00106942 -0.0359263 0.0188233" mass="0.0762186" fullinertia="2.6454e-05 1.91185e-05 3.06014e-05 2.66827e-07 2.14125e-09 -8.07308e-09"/>
+        <!-- Part sts3215_3 -->
+        <geom type="mesh" class="visual" pos="0.14699 -0.04 -0.045685" quat="0.707107 1.91882e-15 -0.707107 -2.27596e-15" mesh="sts3215" material="sts3215_material"/>
+        <!-- <geom type="mesh" class="collision" pos="0.14699 -0.04 -0.045685" quat="0.707107 1.91882e-15 -0.707107 -2.27596e-15" mesh="sts3215" material="sts3215_material"/> -->
+        <!-- Part hips1016 -->
+        <geom type="mesh" class="visual" pos="0.016 -1.04083e-17 0.018825" quat="0.707107 -0.707107 -0 4.44238e-30" mesh="hips1016" material="hips1016_material"/>
+        <!-- <geom type="mesh" class="collision" pos="0.016 -1.04083e-17 0.018825" quat="0.707107 -0.707107 -0 4.44238e-30" mesh="hips1016" material="hips1016_material"/> -->
+        <!-- Link low_hip -->
+        <body name="low_hip" pos="0.01905 -0.05 0.018825" quat="0.298836 -0.640856 -0.298836 0.640856">
+          <!-- Joint from hip to low_hip -->
+          <joint axis="0 0 1" name="right_hip_pitch" type="hinge" range="-1.6 1.6" frictionloss="0.1" armature="0.028" damping="0"/>
+          <inertial pos="-0.0417421 -1.66285e-06 0.00770428" mass="0.0781435" fullinertia="2.36153e-05 3.70364e-05 2.44894e-05 1.72693e-09 -2.62202e-06 7.68937e-09"/>
+          <!-- Part sts3215_4 -->
+          <geom type="mesh" class="visual" pos="0.10099 -0.06451 0.008825" quat="0.5 -0.5 -0.5 0.5" mesh="sts3215" material="sts3215_material"/>
+          <!-- <geom type="mesh" class="collision" pos="0.10099 -0.06451 0.008825" quat="0.5 -0.5 -0.5 0.5" mesh="sts3215" material="sts3215_material"/> -->
+          <!-- Part thigh1016 -->
+          <geom type="mesh" class="visual" pos="-0.03 -1.38778e-17 -0.031175" quat="6.91522e-15 -1 0 -1.86902e-30" mesh="thigh1016" material="thigh1016_material"/>
+          <!-- <geom type="mesh" class="collision" pos="-0.03 -1.38778e-17 -0.031175" quat="6.91522e-15 -1 0 -1.86902e-30" mesh="thigh1016" material="thigh1016_material"/> -->
+          <!-- Link knee_down -->
+          <body name="knee_down" pos="-0.02695 -6.80012e-16 0.018825" quat="0.707107 -3.52835e-14 0.707107 -3.55991e-14">
+            <!-- Joint from low_hip to knee_down -->
+            <joint axis="0 0 1" name="right_hip_yaw" type="hinge" range="-0.785 0.785" frictionloss="0.1" armature="0.028" damping="0"/>
+            <inertial pos="-0.0107349 2.10821e-18 -0.0263596" mass="0.0153484" fullinertia="1.08234e-05 8.20048e-06 4.71676e-06 1.20699e-34 7.91036e-07 1.16693e-35"/>
+            <!-- Part knee_down -->
+            <geom type="mesh" class="visual" pos="1.38778e-17 0 -0.038" quat="0.707107 0.707107 -0 3.46598e-30" mesh="knee_down" material="knee_down_material"/>
+            <!-- <geom type="mesh" class="collision" pos="1.38778e-17 0 -0.038" quat="0.707107 0.707107 -0 3.46598e-30" mesh="knee_down" material="knee_down_material"/> -->
+            <!-- Link knee -->
+            <body name="knee" pos="4.16334e-17 0.019 -0.059" quat="2.38316e-14 2.41468e-14 -0.707107 0.707107">
+              <!-- Joint from knee_down to knee -->
+              <joint axis="0 0 1" name="right_knee" type="hinge" range="-1.23 1.6" frictionloss="0.1" armature="0.028" damping="0"/>
+              <inertial pos="-1.70178e-06 0.0140643 0.0179813" mass="0.0763559" fullinertia="3.08631e-05 2.01146e-05 2.72821e-05 -8.07186e-09 -2.14134e-09 -2.62273e-07"/>
+              <!-- Part sts3215_5 -->
+              <geom type="mesh" class="visual" pos="-0.06451 0.01 -0.12794" quat="1 0 3.08781e-16 1.73472e-17" mesh="sts3215" material="sts3215_material"/>
+              <!-- <geom type="mesh" class="collision" pos="-0.06451 0.01 -0.12794" quat="1 0 3.08781e-16 1.73472e-17" mesh="sts3215" material="sts3215_material"/> -->
+              <!-- Part ankle0116 -->
+              <geom type="mesh" class="visual" pos="-1.38778e-17 0.026159 0.01905" quat="0.707107 0.707107 -1.11022e-16 -1.73322e-17" mesh="ankle0116" material="ankle0116_material"/>
+              <!-- <geom type="mesh" class="collision" pos="-1.38778e-17 0.026159 0.01905" quat="0.707107 0.707107 -1.11022e-16 -1.73322e-17" mesh="ankle0116" material="ankle0116_material"/> -->
+              <!-- Link sts3215 -->
+              <body name="foot1016" pos="0.018825 0.05 0.01905" quat="2.1015e-14 0.707107 2.12053e-14 0.707107">
+                <!-- Joint from knee to sts3215 -->
+                <joint axis="0 0 1" name="right_ankle" type="hinge" range="-1.6 1.6" frictionloss="0.1" armature="0.028" damping="0"/>
+                <inertial pos="-1.36047e-06 -0.0191896 -0.0135513" mass="0.0884859" fullinertia="6.29717e-05 4.02068e-05 3.99134e-05 8.86629e-09 1.79954e-09 9.70573e-06"/>
+                <!-- Part sts3215_6 -->
+                <geom type="mesh" class="visual" pos="-0.06451 -0.01 0.12794" quat="0 1 0 0" mesh="sts3215" material="sts3215_material"/>
+                <!-- <geom type="mesh" class="collision" pos="-0.06451 -0.01 0.12794" quat="0 1 0 0" mesh="sts3215" material="sts3215_material"/> -->
+                <!-- Part foot0116 -->
+                <geom type="mesh" class="visual" pos="0 -0.05 -0.00305001" quat="0.5 0.5 -0.5 0.5" mesh="foot0116" material="foot0116_material"/>
+                <!-- <geom type="mesh" class="collision" pos="0 -0.05 -0.00305001" quat="0.5 0.5 -0.5 0.5" mesh="foot0116" material="foot0116_material"/> -->
+                <geom name="foot_collider" type="box" class="collision" pos="0.000 -0.045 0.002" size="0.023 0.005 0.048" material="collision_material"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <!-- Link hip_2 -->
+      <body name="hip_2" pos="-0.0617138 0.0538513 0.0336753" quat="0.298836 0.640856 0.640856 0.298836">
+        <!-- Joint from body to hip_2 -->
+        <joint axis="0 0 1" name="left_hip_roll" type="hinge" range="-1 1" frictionloss="0.1" armature="0.028" damping="0"/>
+        <inertial pos="0.00106942 -0.0359263 0.0188233" mass="0.0762186" fullinertia="2.6454e-05 1.91185e-05 3.06014e-05 2.66827e-07 2.14125e-09 -8.07308e-09"/>
+        <!-- Part sts3215_7 -->
+        <geom type="mesh" class="visual" pos="0.14699 -0.04 -0.045685" quat="0.707107 7.88498e-16 -0.707107 -1.11022e-16" mesh="sts3215" material="sts3215_material"/>
+        <!-- <geom type="mesh" class="collision" pos="0.14699 -0.04 -0.045685" quat="0.707107 7.88498e-16 -0.707107 -1.11022e-16" mesh="sts3215" material="sts3215_material"/> -->
+        <!-- Part hips1016_2 -->
+        <geom type="mesh" class="visual" pos="0.016 -6.93889e-18 0.018825" quat="0.707107 -0.707107 0 1.53568e-31" mesh="hips1016" material="hips1016_material"/>
+        <!-- <geom type="mesh" class="collision" pos="0.016 -6.93889e-18 0.018825" quat="0.707107 -0.707107 0 1.53568e-31" mesh="hips1016" material="hips1016_material"/> -->
+        <!-- Link low_hip_2 -->
+        <body name="low_hip_2" pos="-0.0186 -0.05 0.018825" quat="0.640856 0.298836 0.640856 0.298836">
+          <!-- Joint from hip_2 to low_hip_2 -->
+          <joint axis="0 0 1" name="left_hip_pitch" type="hinge" range="-1.6 1.6" frictionloss="0.1" armature="0.028" damping="0"/>
+          <inertial pos="-0.0417421 -1.66285e-06 0.00770428" mass="0.0781435" fullinertia="2.36153e-05 3.70364e-05 2.44894e-05 1.72693e-09 -2.62202e-06 7.68937e-09"/>
+          <!-- Part sts3215_8 -->
+          <geom type="mesh" class="visual" pos="0.10099 -0.06451 0.008825" quat="0.5 -0.5 -0.5 0.5" mesh="sts3215" material="sts3215_material"/>
+          <!-- <geom type="mesh" class="collision" pos="0.10099 -0.06451 0.008825" quat="0.5 -0.5 -0.5 0.5" mesh="sts3215" material="sts3215_material"/> -->
+          <!-- Part thigh1016_2 -->
+          <geom type="mesh" class="visual" pos="-0.03 2.77556e-17 -0.031175" quat="6.91522e-15 -1 0 -1.93385e-31" mesh="thigh1016" material="thigh1016_material"/>
+          <!-- <geom type="mesh" class="collision" pos="-0.03 2.77556e-17 -0.031175" quat="6.91522e-15 -1 0 -1.93385e-31" mesh="thigh1016" material="thigh1016_material"/> -->
+          <!-- Link knee_down_2 -->
+          <body name="knee_down_2" pos="-0.02695 -5.41234e-16 0.018825" quat="0.707107 1.35793e-14 0.707107 1.15463e-14">
+            <!-- Joint from low_hip_2 to knee_down_2 -->
+            <joint axis="0 0 1" name="left_hip_yaw" type="hinge" range="-0.785 0.785" frictionloss="0.1" armature="0.028" damping="0"/>
+            <inertial pos="-0.0107349 2.10821e-18 -0.0263596" mass="0.0153484" fullinertia="1.08234e-05 8.20048e-06 4.71676e-06 -4.277e-35 7.91036e-07 -2.00455e-36"/>
+            <!-- Part knee_down_2 -->
+            <geom type="mesh" class="visual" pos="0 0 -0.038" quat="0.707107 0.707107 0 1.06274e-30" mesh="knee_down" material="knee_down_material"/>
+            <!-- <geom type="mesh" class="collision" pos="0 0 -0.038" quat="0.707107 0.707107 0 1.06274e-30" mesh="knee_down" material="knee_down_material"/> -->
+            <!-- Link knee_2 -->
+            <body name="knee_2" pos="6.93889e-18 -0.019 -0.059" quat="0.707107 0.707107 1.85407e-14 -1.97344e-14">
+              <!-- Joint from knee_down_2 to knee_2 -->
+              <joint axis="0 0 1" name="left_knee" type="hinge" range="-1.23 1.6" frictionloss="0.1" armature="0.028" damping="0"/>
+              <inertial pos="-1.70178e-06 -0.0140643 -0.0179813" mass="0.0763559" fullinertia="3.08631e-05 2.01146e-05 2.72821e-05 8.07186e-09 2.14134e-09 -2.62273e-07"/>
+              <!-- Part sts3215_9 -->
+              <geom type="mesh" class="visual" pos="-0.06451 -0.01 0.12794" quat="0 1 0 0" mesh="sts3215" material="sts3215_material"/>
+              <!-- <geom type="mesh" class="collision" pos="-0.06451 -0.01 0.12794" quat="0 1 0 0" mesh="sts3215" material="sts3215_material"/> -->
+              <!-- Part ankle0116_2 -->
+              <geom type="mesh" class="visual" pos="2.77556e-17 -0.026159 -0.01905" quat="0.707107 -0.707107 1.22125e-15 -2.64814e-15" mesh="ankle0116" material="ankle0116_material"/>
+              <!-- <geom type="mesh" class="collision" pos="2.77556e-17 -0.026159 -0.01905" quat="0.707107 -0.707107 1.22125e-15 -2.64814e-15" mesh="ankle0116" material="ankle0116_material"/> -->
+              <!-- Link sts3215_2 -->
+              <body name="foot1016_2" pos="-0.018825 -0.05 -0.01905" quat="0.707107 -6.89255e-15 -0.707107 3.38618e-15">
+                <!-- Joint from knee_2 to sts3215_2 -->
+                <joint axis="0 0 1" name="left_ankle" type="hinge" range="-1.6 1.6" frictionloss="0.1" armature="0.028" damping="0"/>
+                <inertial pos="-1.36047e-06 -0.0191896 -0.0135513" mass="0.0884859" fullinertia="6.29717e-05 4.02068e-05 3.99134e-05 8.86629e-09 1.79954e-09 9.70573e-06"/>
+                <!-- Part sts3215_10 -->
+                <geom type="mesh" class="visual" pos="-0.06451 -0.01 0.12794" quat="0 1 0 0" mesh="sts3215" material="sts3215_material"/>
+                <!-- <geom type="mesh" class="collision" pos="-0.06451 -0.01 0.12794" quat="0 1 0 0" mesh="sts3215" material="sts3215_material"/> -->
+                <!-- Part foot0116_2 -->
+                <geom type="mesh" class="visual" pos="-4.71845e-16 -0.05 -0.00305001" quat="0.5 0.5 -0.5 0.5" mesh="foot0116" material="foot0116_material"/>
+                <!-- <geom type="mesh" class="collision" pos="-4.71845e-16 -0.05 -0.00305001" quat="0.5 0.5 -0.5 0.5" mesh="foot0116" material="foot0116_material"/> -->
+                <geom name="foot_collider_2" type="box" class="collision" pos="-0.000 -0.045 0.002" size="0.023 0.005 0.048" material="collision_material"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <site name="base_site" pos="0 0 0" quat="1 0 0 0" />
+    </body>
+  </worldbody>
+  <asset>
+    <mesh file="leg_foundation1029.stl"/>
+    <mesh file="foot0116.stl"/>
+    <mesh file="lower_torso.stl"/>
+    <mesh file="thigh1016.stl"/>
+    <mesh file="ankle0116.stl"/>
+    <mesh file="internal_weight_200g.stl"/>
+    <mesh file="knee_down.stl"/>
+    <mesh file="hips1016.stl"/>
+    <mesh file="sts3215.stl"/>
+    <material name="collision_material" rgba="1.0 0.28 0.1 0.9" />
+    <material name="internal_weight_200g_material" rgba="0.615686 0.811765 0.929412 1"/>
+    <material name="sts3215_material" rgba="0.4 0.4 0.4 1"/>
+    <material name="lower_torso_material" rgba="1 1 1 1"/>
+    <material name="leg_foundation1029_material" rgba="1 1 1 1"/>
+    <material name="hips1016_material" rgba="1 1 1 1"/>
+    <material name="thigh1016_material" rgba="1 1 1 1"/>
+    <material name="knee_down_material" rgba="1 1 1 1"/>
+    <material name="ankle0116_material" rgba="0.717647 0.717647 0.717647 1"/>
+    <material name="foot0116_material" rgba="0.717647 0.717647 0.717647 1"/>
+  </asset>
+  <actuator>
+    <motor class="SundayA1_Mujoco" name="right_hip_roll_ctrl" joint="right_hip_roll"/>
+    <motor class="SundayA1_Mujoco" name="right_hip_pitch_ctrl" joint="right_hip_pitch"/>
+    <motor class="SundayA1_Mujoco" name="right_hip_yaw_ctrl" joint="right_hip_yaw"/>
+    <motor class="SundayA1_Mujoco" name="right_knee_ctrl" joint="right_knee"/>
+    <motor class="SundayA1_Mujoco" name="right_ankle_ctrl" joint="right_ankle"/>
+    <motor class="SundayA1_Mujoco" name="left_hip_roll_ctrl" joint="left_hip_roll"/>
+    <motor class="SundayA1_Mujoco" name="left_hip_pitch_ctrl" joint="left_hip_pitch"/>
+    <motor class="SundayA1_Mujoco" name="left_hip_yaw_ctrl" joint="left_hip_yaw"/>
+    <motor class="SundayA1_Mujoco" name="left_knee_ctrl" joint="left_knee"/>
+    <motor class="SundayA1_Mujoco" name="left_ankle_ctrl" joint="left_ankle"/>
+  </actuator>
+
+  <sensor>
+    <framepos name="base_site_pos" objtype="site" objname="base_site" />
+    <framequat name="base_site_quat" objtype="site" objname="base_site" />
+    <framelinvel name="base_site_linvel" objtype="site" objname="base_site" />
+    <frameangvel name="base_site_angvel" objtype="site" objname="base_site" />
+    <velocimeter name="base_site_vel" site="base_site" />
+    <accelerometer name="imu_acc" site="imu_site" noise="0.01" />
+    <gyro name="imu_gyro" site="imu_site" noise="0.01" />
+    <magnetometer name="imu_mag" site="imu_site" noise="0.05" />
+    <framepos name="imu_site_pos" objtype="site" objname="imu_site" />
+    <framequat name="imu_site_quat" objtype="site" objname="imu_site" />
+    <framelinvel name="imu_site_linvel" objtype="site" objname="imu_site" />
+    <frameangvel name="imu_site_angvel" objtype="site" objname="imu_site" />
+    <velocimeter name="imu_site_vel" site="imu_site" />
+
+    <framelinvel name="foot1_linvel" objtype="geom" objname="foot_collider"/>
+    <framelinvel name="foot2_linvel" objtype="geom" objname="foot_collider_2"/>
+  </sensor>
+  <equality/>
+</mujoco>

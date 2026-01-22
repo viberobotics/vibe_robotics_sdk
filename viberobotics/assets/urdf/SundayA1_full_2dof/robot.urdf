@@ -1,0 +1,1268 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape https://cad.onshape.com/documents/4c3c396fe160302ca6f5ba10/w/9404e64e67f5b767678775c3/e/2bb1a4693766a2c81e819160 -->
+<robot name="SundayA1_URDF">
+  <!-- Link body -->
+  <link name="body">
+    <inertial>
+      <origin xyz="-6.33681e-06 0.0282241 0.0910197" rpy="0 0 0"/>
+      <mass value="1.01051"/>
+      <inertia ixx="0.00617079" ixy="6.75776e-08" ixz="1.86326e-05" iyy="0.00804533" iyz="-0.00023831" izz="0.00309803"/>
+    </inertial>
+    <!-- Part sts3215 -->
+    <visual>
+      <origin xyz="0.159553 0.083903 0.0743641" rpy="2.26893 -2.73872e-16 -1.5708"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.159553 0.083903 0.0743641" rpy="2.26893 -2.73872e-16 -1.5708"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part main_torso1204 -->
+    <visual>
+      <origin xyz="4.68418e-10 0.019393 0.0863814" rpy="1.57772e-30 -7.92189e-29 -1.00525e-30"/>
+      <geometry>
+        <mesh filename="assets/main_torso1204.stl"/>
+      </geometry>
+      <material name="main_torso1204_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="4.68418e-10 0.019393 0.0863814" rpy="1.57772e-30 -7.92189e-29 -1.00525e-30"/>
+      <geometry>
+        <mesh filename="assets/main_torso1204.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part leg_foundation1029 -->
+    <visual>
+      <origin xyz="0.0340959 0.019393 -0.0047984" rpy="2.44346 1.93131e-16 1.5708"/>
+      <geometry>
+        <mesh filename="assets/leg_foundation1029.stl"/>
+      </geometry>
+      <material name="leg_foundation1029_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0340959 0.019393 -0.0047984" rpy="2.44346 1.93131e-16 1.5708"/>
+      <geometry>
+        <mesh filename="assets/leg_foundation1029.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part sts3215_2 -->
+    <visual>
+      <origin xyz="-0.159392 -0.045117 0.0745556" rpy="2.26893 -2.22045e-16 1.5708"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_2_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.159392 -0.045117 0.0745556" rpy="2.26893 -2.22045e-16 1.5708"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part sts3215_3 -->
+    <visual>
+      <origin xyz="0.06451 0.028593 0.334808" rpy="3.14159 7.92066e-29 -3.14159"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_3_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.06451 0.028593 0.334808" rpy="3.14159 7.92066e-29 -3.14159"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part sts3215_4 -->
+    <visual>
+      <origin xyz="0.218533 -0.045117 0.159381" rpy="-1.5708 -1.92775e-17 1.5708"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_4_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.218533 -0.045117 0.159381" rpy="-1.5708 -1.92775e-17 1.5708"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part internal_weight_395g__configuration_default -->
+    <visual>
+      <origin xyz="-0.0357255 0.00939298 0.0588814" rpy="-1.5708 -7.9527e-29 -1.00525e-30"/>
+      <geometry>
+        <mesh filename="assets/internal_weight_395g__configuration_default.stl"/>
+      </geometry>
+      <material name="internal_weight_395g__configuration_default_material">
+        <color rgba="0.615686 0.811765 0.929412 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0357255 0.00939298 0.0588814" rpy="-1.5708 -7.9527e-29 -1.00525e-30"/>
+      <geometry>
+        <mesh filename="assets/internal_weight_395g__configuration_default.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part sts3215_5 -->
+    <visual>
+      <origin xyz="-0.218533 0.083903 0.163135" rpy="-1.5708 4.20136e-17 -1.5708"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_5_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.218533 0.083903 0.163135" rpy="-1.5708 4.20136e-17 -1.5708"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part leg_foundation1029_2 -->
+    <visual>
+      <origin xyz="-0.0340959 0.019393 -0.0047984" rpy="2.44346 -1.0741e-16 -1.5708"/>
+      <geometry>
+        <mesh filename="assets/leg_foundation1029.stl"/>
+      </geometry>
+      <material name="leg_foundation1029_2_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0340959 0.019393 -0.0047984" rpy="2.44346 -1.0741e-16 -1.5708"/>
+      <geometry>
+        <mesh filename="assets/leg_foundation1029.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link head1209 -->
+  <link name="head1209">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1e-09"/>
+      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+    </inertial>
+    <!-- Part max4466 -->
+    <visual>
+      <origin xyz="-0.0090644 0.01609 -0.0636732" rpy="1.5708 -1.77636e-16 2.00636e-29"/>
+      <geometry>
+        <mesh filename="assets/max4466.stl"/>
+      </geometry>
+      <material name="max4466_material">
+        <color rgba="0.368627 0.25098 0.643137 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0090644 0.01609 -0.0636732" rpy="1.5708 -1.77636e-16 2.00636e-29"/>
+      <geometry>
+        <mesh filename="assets/max4466.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part part_7 -->
+    <visual>
+      <origin xyz="-1.8908e-17 0.00146458 -0.0981134" rpy="-1.0472 -5.15738e-16 -3.747e-16"/>
+      <geometry>
+        <mesh filename="assets/part_7.stl"/>
+      </geometry>
+      <material name="part_7_material">
+        <color rgba="0.866667 0.909804 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-1.8908e-17 0.00146458 -0.0981134" rpy="-1.0472 -5.15738e-16 -3.747e-16"/>
+      <geometry>
+        <mesh filename="assets/part_7.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part max4466_2 -->
+    <visual>
+      <origin xyz="0.00885766 0.01609 -0.0313509" rpy="-1.5708 6.14786e-16 -3.14159"/>
+      <geometry>
+        <mesh filename="assets/max4466__2.stl"/>
+      </geometry>
+      <material name="max4466_2_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.00885766 0.01609 -0.0313509" rpy="-1.5708 6.14786e-16 -3.14159"/>
+      <geometry>
+        <mesh filename="assets/max4466__2.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part head1209 -->
+    <visual>
+      <origin xyz="-1.59872e-17 0.0225 -0.09" rpy="-3.14159 -1.77636e-16 -4.46816e-31"/>
+      <geometry>
+        <mesh filename="assets/head1209.stl"/>
+      </geometry>
+      <material name="head1209_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-1.59872e-17 0.0225 -0.09" rpy="-3.14159 -1.77636e-16 -4.46816e-31"/>
+      <geometry>
+        <mesh filename="assets/head1209.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part max4466_3 -->
+    <visual>
+      <origin xyz="0.00885766 0.01609 -0.0313509" rpy="-1.5708 6.14786e-16 -3.14159"/>
+      <geometry>
+        <mesh filename="assets/max4466__3.stl"/>
+      </geometry>
+      <material name="max4466_3_material">
+        <color rgba="0.262745 0.282353 0.301961 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.00885766 0.01609 -0.0313509" rpy="-1.5708 6.14786e-16 -3.14159"/>
+      <geometry>
+        <mesh filename="assets/max4466__3.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from body to head1209 -->
+  <joint name="head_yaw" type="revolute">
+    <origin xyz="4.68418e-10 0.018593 0.206868" rpy="-3.14159 -3.1481e-28 -3.14159"/>
+    <parent link="body"/>
+    <child link="head1209"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-1" upper="1"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Link shoulder -->
+  <link name="shoulder">
+    <inertial>
+      <origin xyz="-0.000105362 -0.00189186 -0.0610929" rpy="0 0 0"/>
+      <mass value="0.0774183"/>
+      <inertia ixx="4.41056e-05" ixy="-4.15808e-07" ixz="1.5212e-07" iyy="3.67442e-05" iyz="2.53967e-06" izz="1.80135e-05"/>
+    </inertial>
+    <!-- Part shoulder1019 -->
+    <visual>
+      <origin xyz="5.20417e-17 -1.11022e-16 -0.018825" rpy="1.5708 2.80042e-16 3.08507"/>
+      <geometry>
+        <mesh filename="assets/shoulder1019.stl"/>
+      </geometry>
+      <material name="shoulder1019_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="5.20417e-17 -1.11022e-16 -0.018825" rpy="1.5708 2.80042e-16 3.08507"/>
+      <geometry>
+        <mesh filename="assets/shoulder1019.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part sts3215_6 -->
+    <visual>
+      <origin xyz="0.0561034 -0.1504 -0.067756" rpy="1.5708 8.81843e-17 3.08507"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_6_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0561034 -0.1504 -0.067756" rpy="1.5708 8.81843e-17 3.08507"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link deltoid -->
+  <link name="deltoid">
+    <inertial>
+      <origin xyz="3.3669e-16 -0.0107349 0.0263596" rpy="0 0 0"/>
+      <mass value="0.0153484"/>
+      <inertia ixx="8.20048e-06" ixy="-7.53973e-20" ixz="6.14826e-20" iyy="1.08234e-05" iyz="-7.91036e-07" izz="4.71676e-06"/>
+    </inertial>
+    <!-- Part deltoid -->
+    <visual>
+      <origin xyz="-1.38778e-17 2.77556e-17 0.038" rpy="-1.5708 4.81778e-15 1.5708"/>
+      <geometry>
+        <mesh filename="assets/deltoid.stl"/>
+      </geometry>
+      <material name="deltoid_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-1.38778e-17 2.77556e-17 0.038" rpy="-1.5708 4.81778e-15 1.5708"/>
+      <geometry>
+        <mesh filename="assets/deltoid.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link elbow -->
+  <link name="elbow">
+    <inertial>
+      <origin xyz="-1.59266e-06 -0.0175701 -0.0180498" rpy="0 0 0"/>
+      <mass value="0.0815874"/>
+      <inertia ixx="4.69188e-05" ixy="8.52741e-09" ixz="2.15025e-09" iyy="2.32792e-05" iyz="-5.48373e-07" izz="4.49531e-05"/>
+    </inertial>
+    <!-- Part elbow1216 -->
+    <visual>
+      <origin xyz="0 -0.026213 -0.01905" rpy="-1.5708 8.61961e-16 -1.61802e-29"/>
+      <geometry>
+        <mesh filename="assets/elbow1216.stl"/>
+      </geometry>
+      <material name="elbow1216_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.026213 -0.01905" rpy="-1.5708 8.61961e-16 -1.61802e-29"/>
+      <geometry>
+        <mesh filename="assets/elbow1216.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part sts3215_7 -->
+    <visual>
+      <origin xyz="-0.06451 -0.01 0.12794" rpy="3.14159 -4.22848e-30 -6.40829e-31"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_7_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.06451 -0.01 0.12794" rpy="3.14159 -4.22848e-30 -6.40829e-31"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link right_hand -->
+  <link name="right_hand">
+    <inertial>
+      <origin xyz="-0.00027966 -0.0341813 -0.0179209" rpy="0 0 0"/>
+      <mass value="0.144263"/>
+      <inertia ixx="0.000113897" ixy="-2.71652e-06" ixz="-1.8635e-07" iyy="4.34574e-05" iyz="-3.74313e-07" izz="0.000112491"/>
+    </inertial>
+    <!-- Part sts3215_8 -->
+    <visual>
+      <origin xyz="0.002554 0.01151 0.12794" rpy="3.14159 3.61498e-15 -1.5708"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_8_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.002554 0.01151 0.12794" rpy="3.14159 3.61498e-15 -1.5708"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part sts3215_9 -->
+    <visual>
+      <origin xyz="-0.06451 -0.01 0.12794" rpy="3.14159 -1.59575e-30 5.48428e-18"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_9_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.06451 -0.01 0.12794" rpy="3.14159 -1.59575e-30 5.48428e-18"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part paw0101 -->
+    <visual>
+      <origin xyz="-3.92048e-16 -0.05 -0.00305001" rpy="1.5708 -1.5708 0"/>
+      <geometry>
+        <mesh filename="assets/paw0101.stl"/>
+      </geometry>
+      <material name="paw0101_material">
+        <color rgba="0.717647 0.717647 0.717647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-3.92048e-16 -0.05 -0.00305001" rpy="1.5708 -1.5708 0"/>
+      <geometry>
+        <mesh filename="assets/paw0101.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link thumb_0112 -->
+  <link name="thumb_0112">
+    <inertial>
+      <origin xyz="0.0268425 -0.00371289 -0.018825" rpy="0 0 0"/>
+      <mass value="0.0051587"/>
+      <inertia ixx="8.94173e-07" ixy="3.23337e-07" ixz="5.31939e-15" iyy="2.15809e-06" iyz="1.56522e-14" izz="1.56579e-06"/>
+    </inertial>
+    <!-- Part thumb_0112 -->
+    <visual>
+      <origin xyz="-1.73472e-17 -5.55112e-17 -0.018825" rpy="-1.5708 3.72311e-16 -1.5708"/>
+      <geometry>
+        <mesh filename="assets/thumb_0112.stl"/>
+      </geometry>
+      <material name="thumb_0112_material">
+        <color rgba="0.717647 0.717647 0.717647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-1.73472e-17 -5.55112e-17 -0.018825" rpy="-1.5708 3.72311e-16 -1.5708"/>
+      <geometry>
+        <mesh filename="assets/thumb_0112.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from right_hand to thumb_0112 -->
+  <joint name="right_hand" type="revolute">
+    <origin xyz="0.012554 -0.053 -1.08247e-15" rpy="-9.29505e-15 3.61498e-15 -1.5708"/>
+    <parent link="right_hand"/>
+    <child link="thumb_0112"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-2.5" upper="0"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from elbow to right_hand -->
+  <joint name="right_wrist" type="revolute">
+    <origin xyz="-0.018825 -0.080054 -0.01905" rpy="-1.5708 -1.56416 1.5708"/>
+    <parent link="elbow"/>
+    <child link="right_hand"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-1" upper="1"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from deltoid to elbow -->
+  <joint name="right_elbow" type="revolute">
+    <origin xyz="-0.019 -5.55112e-16 0.059" rpy="-1.5708 -1.36305e-16 1.5708"/>
+    <parent link="deltoid"/>
+    <child link="elbow"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-1.3" upper="1.7"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from shoulder to deltoid -->
+  <joint name="right_shoulder_pitch" type="revolute">
+    <origin xyz="-0.00107615 -0.0190196 -0.077756" rpy="1.5708 8.81843e-17 3.08507"/>
+    <parent link="shoulder"/>
+    <child link="deltoid"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-0.785" upper="0.785"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from body to shoulder -->
+  <joint name="right_shoulder_roll" type="revolute">
+    <origin xyz="0.0529429 0.019393 0.169381" rpy="-1.5708 -1.92775e-17 1.5708"/>
+    <parent link="body"/>
+    <child link="shoulder"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-1.7" upper="1.7"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Link hip -->
+  <link name="hip">
+    <inertial>
+      <origin xyz="0.00106942 -0.0359263 0.0188233" rpy="0 0 0"/>
+      <mass value="0.0762186"/>
+      <inertia ixx="2.6454e-05" ixy="2.66827e-07" ixz="2.14125e-09" iyy="1.91185e-05" iyz="-8.07308e-09" izz="3.06014e-05"/>
+    </inertial>
+    <!-- Part sts3215_10 -->
+    <visual>
+      <origin xyz="0.14699 -0.04 -0.045685" rpy="1.19441e-16 -1.5708 0"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_10_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.14699 -0.04 -0.045685" rpy="1.19441e-16 -1.5708 0"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part hips1016 -->
+    <visual>
+      <origin xyz="0.016 0 0.018825" rpy="-1.5708 -2.27283e-30 2.97893e-30"/>
+      <geometry>
+        <mesh filename="assets/hips1016.stl"/>
+      </geometry>
+      <material name="hips1016_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.016 0 0.018825" rpy="-1.5708 -2.27283e-30 2.97893e-30"/>
+      <geometry>
+        <mesh filename="assets/hips1016.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link low_hip -->
+  <link name="low_hip">
+    <inertial>
+      <origin xyz="-0.0417421 -1.66285e-06 0.00770428" rpy="0 0 0"/>
+      <mass value="0.0781435"/>
+      <inertia ixx="2.36153e-05" ixy="1.72693e-09" ixz="-2.62202e-06" iyy="3.70364e-05" iyz="7.68937e-09" izz="2.44894e-05"/>
+    </inertial>
+    <!-- Part sts3215_11 -->
+    <visual>
+      <origin xyz="0.10099 -0.06451 0.008825" rpy="-1.5708 -1.38958e-14 1.5708"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_11_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.10099 -0.06451 0.008825" rpy="-1.5708 -1.38958e-14 1.5708"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part thigh1016 -->
+    <visual>
+      <origin xyz="-0.03 1.38778e-17 -0.031175" rpy="-3.14159 -4.92756e-30 -3.45127e-31"/>
+      <geometry>
+        <mesh filename="assets/thigh1016.stl"/>
+      </geometry>
+      <material name="thigh1016_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.03 1.38778e-17 -0.031175" rpy="-3.14159 -4.92756e-30 -3.45127e-31"/>
+      <geometry>
+        <mesh filename="assets/thigh1016.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link knee_down -->
+  <link name="knee_down">
+    <inertial>
+      <origin xyz="-0.0107349 3.63463e-18 -0.0263596" rpy="0 0 0"/>
+      <mass value="0.0153484"/>
+      <inertia ixx="1.08234e-05" ixy="1.3916e-34" ixz="7.91036e-07" iyy="8.20048e-06" iyz="1.04315e-35" izz="4.71676e-06"/>
+    </inertial>
+    <!-- Part knee_down -->
+    <visual>
+      <origin xyz="3.46945e-18 0 -0.038" rpy="1.5708 -4.48023e-30 1.75012e-29"/>
+      <geometry>
+        <mesh filename="assets/knee_down.stl"/>
+      </geometry>
+      <material name="knee_down_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="3.46945e-18 0 -0.038" rpy="1.5708 -4.48023e-30 1.75012e-29"/>
+      <geometry>
+        <mesh filename="assets/knee_down.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link knee -->
+  <link name="knee">
+    <inertial>
+      <origin xyz="-1.7237e-06 0.0139077 0.0179711" rpy="0 0 0"/>
+      <mass value="0.0753846"/>
+      <inertia ixx="3.15865e-05" ixy="-8.05151e-09" ixz="-2.14001e-09" iyy="1.85785e-05" iyz="-2.58309e-07" izz="2.44273e-05"/>
+    </inertial>
+    <!-- Part ankle1016 -->
+    <visual>
+      <origin xyz="2.81025e-16 0.0500539 0.00305001" rpy="-1.5708 1.5708 0"/>
+      <geometry>
+        <mesh filename="assets/ankle1016.stl"/>
+      </geometry>
+      <material name="ankle1016_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="2.81025e-16 0.0500539 0.00305001" rpy="-1.5708 1.5708 0"/>
+      <geometry>
+        <mesh filename="assets/ankle1016.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part sts3215_12 -->
+    <visual>
+      <origin xyz="-0.06451 0.01 -0.12794" rpy="7.30313e-31 -3.18352e-31 -2.83497e-30"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_12_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.06451 0.01 -0.12794" rpy="7.30313e-31 -3.18352e-31 -2.83497e-30"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link sts3215 -->
+  <link name="sts3215">
+    <inertial>
+      <origin xyz="-0.0253907 -0.0124409 -0.0184983" rpy="0 0 0"/>
+      <mass value="0.146774"/>
+      <inertia ixx="4.7833e-05" ixy="1.89182e-07" ixz="-2.05814e-06" iyy="0.000127161" iyz="-1.51544e-07" izz="0.000140564"/>
+    </inertial>
+    <!-- Part sts3215_13 -->
+    <visual>
+      <origin xyz="0.09499 -0.014888 -0.08356" rpy="-4.44089e-16 -1.5708 0"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_13_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.09499 -0.014888 -0.08356" rpy="-4.44089e-16 -1.5708 0"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part sts3215_14 -->
+    <visual>
+      <origin xyz="-0.06451 -0.01 0.12794" rpy="3.14159 -4.44659e-30 0"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_14_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.06451 -0.01 0.12794" rpy="3.14159 -4.44659e-30 0"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part ankle0120 -->
+    <visual>
+      <origin xyz="0 -0.035054 -0.01905" rpy="-1.11022e-16 1.11022e-16 3.14159"/>
+      <geometry>
+        <mesh filename="assets/ankle0120.stl"/>
+      </geometry>
+      <material name="ankle0120_material">
+        <color rgba="0.717647 0.717647 0.717647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.035054 -0.01905" rpy="-1.11022e-16 1.11022e-16 3.14159"/>
+      <geometry>
+        <mesh filename="assets/ankle0120.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link foot0120 -->
+  <link name="foot0120">
+    <inertial>
+      <origin xyz="-9.44138e-08 -0.0276933 0.0533932" rpy="0 0 0"/>
+      <mass value="0.0379446"/>
+      <inertia ixx="7.7618e-05" ixy="5.15162e-12" ixz="8.05755e-11" iyy="8.25939e-05" iyz="2.88434e-06" izz="8.51778e-06"/>
+    </inertial>
+    <!-- Part foot0120 -->
+    <visual>
+      <origin xyz="0.016 -0.01 0.018825" rpy="-1.5708 -1.31271e-30 0"/>
+      <geometry>
+        <mesh filename="assets/foot0120.stl"/>
+      </geometry>
+      <material name="foot0120_material">
+        <color rgba="0.717647 0.717647 0.717647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.016 -0.01 0.018825" rpy="-1.5708 -1.31271e-30 0"/>
+      <geometry>
+        <mesh filename="assets/foot0120.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from sts3215 to foot0120 -->
+  <joint name="right_ankle_roll" type="revolute">
+    <origin xyz="-0.0706 -0.024888 -0.01905" rpy="4.44089e-16 1.5708 0"/>
+    <parent link="sts3215"/>
+    <child link="foot0120"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-3.141592653589793" upper="3.141592653589793"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from knee to sts3215 -->
+  <joint name="right_ankle_pitch" type="revolute">
+    <origin xyz="3.01842e-16 0.0500539 0.000225009" rpy="-3.14159 -1.11022e-16 7.57172e-14"/>
+    <parent link="knee"/>
+    <child link="sts3215"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-3.141592653589793" upper="3.141592653589793"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from knee_down to knee -->
+  <joint name="right_knee" type="revolute">
+    <origin xyz="0 0.019 -0.059" rpy="-1.5708 -5.98912e-14 -3.14159"/>
+    <parent link="knee_down"/>
+    <child link="knee"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-1.23" upper="1.6"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from low_hip to knee_down -->
+  <joint name="right_hip_yaw" type="revolute">
+    <origin xyz="-0.02695 -6.80012e-16 0.018825" rpy="1.91513e-15 1.5708 0"/>
+    <parent link="low_hip"/>
+    <child link="knee_down"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-0.785" upper="0.785"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from hip to low_hip -->
+  <joint name="right_hip_pitch" type="revolute">
+    <origin xyz="0.01905 -0.05 0.018825" rpy="-1.5708 0.698132 1.5708"/>
+    <parent link="hip"/>
+    <child link="low_hip"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-1.6" upper="1.6"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from body to hip -->
+  <joint name="right_hip_roll" type="revolute">
+    <origin xyz="0.0679727 0.019393 -0.0155346" rpy="2.26893 -7.32817e-14 -1.5708"/>
+    <parent link="body"/>
+    <child link="hip"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-1" upper="1"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Link shoulder_2 -->
+  <link name="shoulder_2">
+    <inertial>
+      <origin xyz="1.67842e-06 0.00189479 0.0610929" rpy="0 0 0"/>
+      <mass value="0.0774183"/>
+      <inertia ixx="4.4129e-05" ixy="-2.034e-09" ixz="-8.40956e-09" iyy="3.67208e-05" iyz="2.5442e-06" izz="1.80135e-05"/>
+    </inertial>
+    <!-- Part shoulder1019_2 -->
+    <visual>
+      <origin xyz="-2.42861e-17 1.11022e-16 0.018825" rpy="-1.5708 -4.33475e-16 3.14159"/>
+      <geometry>
+        <mesh filename="assets/shoulder1019.stl"/>
+      </geometry>
+      <material name="shoulder1019_2_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-2.42861e-17 1.11022e-16 0.018825" rpy="-1.5708 -4.33475e-16 3.14159"/>
+      <geometry>
+        <mesh filename="assets/shoulder1019.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part sts3215_15 -->
+    <visual>
+      <origin xyz="0.06451 0.14699 0.067756" rpy="-1.5708 -4.30969e-16 3.14159"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_15_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.06451 0.14699 0.067756" rpy="-1.5708 -4.30969e-16 3.14159"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link deltoid_2 -->
+  <link name="deltoid_2">
+    <inertial>
+      <origin xyz="-0.0107349 -4.10655e-18 0.0263596" rpy="0 0 0"/>
+      <mass value="0.0153484"/>
+      <inertia ixx="1.08234e-05" ixy="-9.94718e-37" ixz="-7.91036e-07" iyy="8.20048e-06" iyz="5.39905e-38" izz="4.71676e-06"/>
+    </inertial>
+    <!-- Part deltoid_2 -->
+    <visual>
+      <origin xyz="0 0 0.038" rpy="-1.5708 -1.81808e-31 3.02054e-32"/>
+      <geometry>
+        <mesh filename="assets/deltoid.stl"/>
+      </geometry>
+      <material name="deltoid_2_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.038" rpy="-1.5708 -1.81808e-31 3.02054e-32"/>
+      <geometry>
+        <mesh filename="assets/deltoid.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link elbow_2 -->
+  <link name="elbow_2">
+    <inertial>
+      <origin xyz="-1.59266e-06 -0.0175701 0.0196002" rpy="0 0 0"/>
+      <mass value="0.0815874"/>
+      <inertia ixx="4.69188e-05" ixy="8.52741e-09" ixz="2.15025e-09" iyy="2.32792e-05" iyz="-5.48373e-07" izz="4.49531e-05"/>
+    </inertial>
+    <!-- Part elbow1216_2 -->
+    <visual>
+      <origin xyz="0 -0.026213 0.0186" rpy="-1.5708 4.10935e-16 5.55112e-17"/>
+      <geometry>
+        <mesh filename="assets/elbow1216.stl"/>
+      </geometry>
+      <material name="elbow1216_2_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.026213 0.0186" rpy="-1.5708 4.10935e-16 5.55112e-17"/>
+      <geometry>
+        <mesh filename="assets/elbow1216.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part sts3215_16 -->
+    <visual>
+      <origin xyz="-0.06451 -0.01 0.16559" rpy="-3.14159 -0 -1.07239e-46"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_16_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.06451 -0.01 0.16559" rpy="-3.14159 -0 -1.07239e-46"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link left_hand -->
+  <link name="left_hand">
+    <inertial>
+      <origin xyz="0.000302202 -0.0341831 -0.0179209" rpy="0 0 0"/>
+      <mass value="0.144263"/>
+      <inertia ixx="0.000113906" ixy="2.78815e-06" ixz="1.90151e-07" iyy="4.34447e-05" iyz="-3.70046e-07" izz="0.000112488"/>
+    </inertial>
+    <!-- Part sts3215_17 -->
+    <visual>
+      <origin xyz="-0.06451 -0.01 0.12794" rpy="3.14159 -1.74435e-31 5.8033e-31"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_17_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.06451 -0.01 0.12794" rpy="3.14159 -1.74435e-31 5.8033e-31"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part sts3215_18 -->
+    <visual>
+      <origin xyz="-0.0025 -0.11751 0.12794" rpy="3.14159 -5.75096e-15 1.5708"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_18_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0025 -0.11751 0.12794" rpy="3.14159 -5.75096e-15 1.5708"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part paw0101mir -->
+    <visual>
+      <origin xyz="-6.93889e-17 -0.05 -0.00305001" rpy="1.5708 -1.5708 0"/>
+      <geometry>
+        <mesh filename="assets/paw0101mir.stl"/>
+      </geometry>
+      <material name="paw0101mir_material">
+        <color rgba="0.717647 0.717647 0.717647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-6.93889e-17 -0.05 -0.00305001" rpy="1.5708 -1.5708 0"/>
+      <geometry>
+        <mesh filename="assets/paw0101mir.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link thumb_0112_2 -->
+  <link name="thumb_0112_2">
+    <inertial>
+      <origin xyz="-0.0268425 0.00371289 0.018825" rpy="0 0 0"/>
+      <mass value="0.0051587"/>
+      <inertia ixx="8.94173e-07" ixy="3.23337e-07" ixz="-5.31939e-15" iyy="2.15809e-06" iyz="-1.56522e-14" izz="1.56579e-06"/>
+    </inertial>
+    <!-- Part thumb_0112_2 -->
+    <visual>
+      <origin xyz="1.89735e-18 0 0.018825" rpy="-1.5708 -6.74887e-16 1.5708"/>
+      <geometry>
+        <mesh filename="assets/thumb_0112.stl"/>
+      </geometry>
+      <material name="thumb_0112_2_material">
+        <color rgba="0.717647 0.717647 0.717647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="1.89735e-18 0 0.018825" rpy="-1.5708 -6.74887e-16 1.5708"/>
+      <geometry>
+        <mesh filename="assets/thumb_0112.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from left_hand to thumb_0112_2 -->
+  <joint name="left_hand" type="revolute">
+    <origin xyz="-0.0125 -0.053 -2.22045e-16" rpy="3.14159 -5.75096e-15 1.5708"/>
+    <parent link="left_hand"/>
+    <child link="thumb_0112_2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="0" upper="2.5"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from elbow_2 to left_hand -->
+  <joint name="left_wrist" type="revolute">
+    <origin xyz="0.018825 -0.080054 0.0186" rpy="-5.55112e-17 1.5708 0"/>
+    <parent link="elbow_2"/>
+    <child link="left_hand"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-1" upper="1"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from deltoid_2 to elbow_2 -->
+  <joint name="left_elbow" type="revolute">
+    <origin xyz="-2.77556e-17 0.019 0.059" rpy="-1.5708 -1.79023e-15 -3.14159"/>
+    <parent link="deltoid_2"/>
+    <child link="elbow_2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-1.7" upper="1.3"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from shoulder_2 to deltoid_2 -->
+  <joint name="left_shoulder_pitch" type="revolute">
+    <origin xyz="-5.20417e-17 0.01905 0.077756" rpy="1.5708 1.5708 0"/>
+    <parent link="shoulder_2"/>
+    <child link="deltoid_2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-0.785" upper="0.785"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from body to shoulder_2 -->
+  <joint name="left_shoulder_roll" type="revolute">
+    <origin xyz="-0.0529429 0.019393 0.173135" rpy="1.5708 4.20136e-17 -1.5708"/>
+    <parent link="body"/>
+    <child link="shoulder_2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-1.7" upper="1.7"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Link hip_2 -->
+  <link name="hip_2">
+    <inertial>
+      <origin xyz="0.00106942 -0.0359263 0.0188233" rpy="0 0 0"/>
+      <mass value="0.0762186"/>
+      <inertia ixx="2.6454e-05" ixy="2.66827e-07" ixz="2.14125e-09" iyy="1.91185e-05" iyz="-8.07308e-09" izz="3.06014e-05"/>
+    </inertial>
+    <!-- Part sts3215_19 -->
+    <visual>
+      <origin xyz="0.14699 -0.04 -0.045685" rpy="-8.55709e-17 -1.5708 0"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_19_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.14699 -0.04 -0.045685" rpy="-8.55709e-17 -1.5708 0"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part hips1016_2 -->
+    <visual>
+      <origin xyz="0.016 0 0.018825" rpy="-1.5708 3.74239e-32 4.24935e-31"/>
+      <geometry>
+        <mesh filename="assets/hips1016.stl"/>
+      </geometry>
+      <material name="hips1016_2_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.016 0 0.018825" rpy="-1.5708 3.74239e-32 4.24935e-31"/>
+      <geometry>
+        <mesh filename="assets/hips1016.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link low_hip_2 -->
+  <link name="low_hip_2">
+    <inertial>
+      <origin xyz="-0.0417421 -1.66285e-06 0.00770428" rpy="0 0 0"/>
+      <mass value="0.0781435"/>
+      <inertia ixx="2.36153e-05" ixy="1.72693e-09" ixz="-2.62202e-06" iyy="3.70364e-05" iyz="7.68937e-09" izz="2.44894e-05"/>
+    </inertial>
+    <!-- Part sts3215_20 -->
+    <visual>
+      <origin xyz="0.10099 -0.06451 0.008825" rpy="-1.5708 2.53371e-14 1.5708"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_20_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.10099 -0.06451 0.008825" rpy="-1.5708 2.53371e-14 1.5708"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part thigh1016_2 -->
+    <visual>
+      <origin xyz="-0.03 1.38778e-17 -0.031175" rpy="-3.14159 -6.87259e-31 1.2326e-32"/>
+      <geometry>
+        <mesh filename="assets/thigh1016.stl"/>
+      </geometry>
+      <material name="thigh1016_2_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.03 1.38778e-17 -0.031175" rpy="-3.14159 -6.87259e-31 1.2326e-32"/>
+      <geometry>
+        <mesh filename="assets/thigh1016.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link knee_down_2 -->
+  <link name="knee_down_2">
+    <inertial>
+      <origin xyz="-0.0107349 3.63463e-18 -0.0263596" rpy="0 0 0"/>
+      <mass value="0.0153484"/>
+      <inertia ixx="1.08234e-05" ixy="-4.277e-35" ixz="7.91036e-07" iyy="8.20048e-06" iyz="-2.00455e-36" izz="4.71676e-06"/>
+    </inertial>
+    <!-- Part knee_down_2 -->
+    <visual>
+      <origin xyz="0 0 -0.038" rpy="1.5708 -2.22756e-31 -1.83754e-30"/>
+      <geometry>
+        <mesh filename="assets/knee_down.stl"/>
+      </geometry>
+      <material name="knee_down_2_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.038" rpy="1.5708 -2.22756e-31 -1.83754e-30"/>
+      <geometry>
+        <mesh filename="assets/knee_down.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link knee_2 -->
+  <link name="knee_2">
+    <inertial>
+      <origin xyz="-1.7237e-06 -0.0139077 -0.0179711" rpy="0 0 0"/>
+      <mass value="0.0753846"/>
+      <inertia ixx="3.15865e-05" ixy="8.05151e-09" ixz="2.14001e-09" iyy="1.85785e-05" iyz="-2.58309e-07" izz="2.44273e-05"/>
+    </inertial>
+    <!-- Part ankle1016_2 -->
+    <visual>
+      <origin xyz="1.63064e-16 -0.0500539 -0.00305001" rpy="1.5708 -1.5708 0"/>
+      <geometry>
+        <mesh filename="assets/ankle1016.stl"/>
+      </geometry>
+      <material name="ankle1016_2_material">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="1.63064e-16 -0.0500539 -0.00305001" rpy="1.5708 -1.5708 0"/>
+      <geometry>
+        <mesh filename="assets/ankle1016.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part sts3215_21 -->
+    <visual>
+      <origin xyz="-0.06451 -0.01 0.12794" rpy="-3.14159 1.25041e-31 6.41779e-30"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_21_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.06451 -0.01 0.12794" rpy="-3.14159 1.25041e-31 6.41779e-30"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link sts3215_2 -->
+  <link name="sts3215_2">
+    <inertial>
+      <origin xyz="0.0253889 -0.012417 -0.0184966" rpy="0 0 0"/>
+      <mass value="0.146774"/>
+      <inertia ixx="4.78225e-05" ixy="-2.62481e-07" ixz="2.06021e-06" iyy="0.000127174" iyz="-1.33878e-07" izz="0.000140567"/>
+    </inertial>
+    <!-- Part sts3215_22 -->
+    <visual>
+      <origin xyz="-0.06451 -0.01 0.12794" rpy="3.14159 2.51583e-30 0"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_22_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.06451 -0.01 0.12794" rpy="3.14159 2.51583e-30 0"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part sts3215_23 -->
+    <visual>
+      <origin xyz="-0.09499 -0.014834 0.04546" rpy="-2.77556e-16 1.5708 0"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+      <material name="sts3215_23_material">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.09499 -0.014834 0.04546" rpy="-2.77556e-16 1.5708 0"/>
+      <geometry>
+        <mesh filename="assets/sts3215.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part ankle0120_2 -->
+    <visual>
+      <origin xyz="-8.7777e-16 -0.035054 -0.01905" rpy="3.14159 2.51583e-30 0"/>
+      <geometry>
+        <mesh filename="assets/ankle0120__2.stl"/>
+      </geometry>
+      <material name="ankle0120_2_material">
+        <color rgba="0.717647 0.717647 0.717647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-8.7777e-16 -0.035054 -0.01905" rpy="3.14159 2.51583e-30 0"/>
+      <geometry>
+        <mesh filename="assets/ankle0120__2.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link foot0120_2 -->
+  <link name="foot0120_2">
+    <inertial>
+      <origin xyz="9.44138e-08 -0.0276933 -0.0157432" rpy="0 0 0"/>
+      <mass value="0.0379446"/>
+      <inertia ixx="7.7618e-05" ixy="-5.15162e-12" ixz="8.05755e-11" iyy="8.25939e-05" iyz="-2.88434e-06" izz="8.51778e-06"/>
+    </inertial>
+    <!-- Part foot0120_2 -->
+    <visual>
+      <origin xyz="-0.016 -0.01 0.018825" rpy="1.5708 -5.16254e-14 3.14159"/>
+      <geometry>
+        <mesh filename="assets/foot0120.stl"/>
+      </geometry>
+      <material name="foot0120_2_material">
+        <color rgba="0.717647 0.717647 0.717647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.016 -0.01 0.018825" rpy="1.5708 -5.16254e-14 3.14159"/>
+      <geometry>
+        <mesh filename="assets/foot0120.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from sts3215_2 to foot0120_2 -->
+  <joint name="left_ankle_roll" type="revolute">
+    <origin xyz="0.03295 -0.024834 -0.01905" rpy="-2.77556e-16 1.5708 0"/>
+    <parent link="sts3215_2"/>
+    <child link="foot0120_2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-3.141592653589793" upper="3.141592653589793"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from knee_2 to sts3215_2 -->
+  <joint name="left_ankle_pitch" type="revolute">
+    <origin xyz="1.35308e-16 -0.0500539 -0.000225009" rpy="-6.21725e-15 2.94918e-15 1.02085e-14"/>
+    <parent link="knee_2"/>
+    <child link="sts3215_2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-3.141592653589793" upper="3.141592653589793"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from knee_down_2 to knee_2 -->
+  <joint name="left_knee" type="revolute">
+    <origin xyz="6.93889e-18 -0.019 -0.059" rpy="1.5708 6.03027e-14 -3.00469e-15"/>
+    <parent link="knee_down_2"/>
+    <child link="knee_2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-1.23" upper="1.6"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from low_hip_2 to knee_down_2 -->
+  <joint name="left_hip_yaw" type="revolute">
+    <origin xyz="-0.02695 -5.41234e-16 0.018825" rpy="2.71171e-31 1.5708 0"/>
+    <parent link="low_hip_2"/>
+    <child link="knee_down_2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-0.785" upper="0.785"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from hip_2 to low_hip_2 -->
+  <joint name="left_hip_pitch" type="revolute">
+    <origin xyz="-0.0186 -0.05 0.018825" rpy="1.5708 0.698132 1.5708"/>
+    <parent link="hip_2"/>
+    <child link="low_hip_2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-1.6" upper="1.6"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+  <!-- Joint from body to hip_2 -->
+  <joint name="left_hip_roll" type="revolute">
+    <origin xyz="-0.067812 0.019393 -0.0153431" rpy="2.26893 3.60356e-15 1.5708"/>
+    <parent link="body"/>
+    <child link="hip_2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1.9" velocity="5" lower="-1" upper="1"/>
+    <joint_properties friction="0.052"/>
+  </joint>
+</robot>

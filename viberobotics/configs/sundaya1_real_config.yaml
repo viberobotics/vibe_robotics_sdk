@@ -1,9 +1,9 @@
 sim:
   dt: 0.002
-  asset_path: "mujoco/SundayA1_leo/scene.xml"
+  asset_path: "mujoco/SundayA1_full_v1.2_b/scene.xml"
 real:
   imu_port:
-    port: "/dev/ttyACM0"
+    port: "/dev/ttyACM2"
     baudrate: 9600
   motor_controllers:
     - name: "arm"
@@ -14,18 +14,40 @@ real:
     - name: "leg"
       motor_ids: [6, 7, 8, 9, 10, 16, 17, 18, 19, 20]
       serial_config:
-        port: "/dev/ttyACM2"
+        port: "/dev/ttyACM0"
         baudrate: 1000000
-  calibration_file: "configs/sundaya1_real_calibration.yaml"
+  calibration_file: "configs/zero_position.csv"
+  motor_order:
+    1: 1
+    2: 2
+    3: 3
+    4: 4
+    5: 5
+    6: 6
+    7: 7
+    8: 8
+    9: 9
+    10: 10
+    11: 11
+    12: 12
+    13: 13
+    14: 14
+    15: 15
+    16: 16
+    17: 17
+    18: 18
+    19: 19
+    20: 20
+    21: 0
 control:
   kp_torque: 20
   kd_torque: 1
 policy:
   model_path: "models/policy_leo.pt"
 default_qpos: [
+  0,
   0, 0, 0, 0, 0,
-  0, 0.7, 0, 0, 0,
+  0, 0., 0, 0, 0,
   0, 0, 0, 0, 0,
-  0, -0.7, 0, 0, 0,
-  0
+  0, -0., 0, 0, 0,
 ]
