@@ -42,9 +42,14 @@ if __name__ == "__main__":
     pc_xyz, pc_color = np.load("pc_xyz.npy"), np.load("pc_color.npy")
     
     robot = pin.RobotWrapper.BuildFromMJCF(
-        filename=(ASSET_DIR / "mujoco/SundayA1_full_2dof_manip/robot.xml").as_posix(),
+        filename=(ASSET_DIR / "mujoco/SundayA1_full_2dof_arm_manip/robot.xml").as_posix(),
         root_joint=None,
     )
+    print('mujoco joint order:')
+    model = mujoco.MjModel.from_xml_path('/home/danielchen09/dc/vibe/viberobotics-python/viberobotics/assets/mujoco/SundayA1_full_2dof_arm_manip/scene.xml')
+    for i in range(model.njnt):
+        joint_name = model.joint(i).name
+        print(f"Joint {i}: {joint_name}")
     robot = robot.buildReducedRobot(list_of_joints_to_lock=[
         "head_yaw",            # 0
         "right_hand",          # 5
@@ -56,8 +61,8 @@ if __name__ == "__main__":
         "right_ankle_roll",    # 11
         "left_shoulder_roll",  # 12
         "left_shoulder_pitch", # 13
-        "left_elbow",          # 14
-        "left_wrist",          # 15
+        "left_elbow_pitch",          # 14
+        "left_wrist_yaw",          # 15
         "left_hand",           # 16
         "left_hip_roll",       # 17
         "left_hip_pitch",      # 18

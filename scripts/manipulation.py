@@ -46,7 +46,7 @@ if __name__ == '__main__':
     server = viser.ViserServer()
     viser_urdf = ViserUrdf(
         server,
-        urdf_or_path=ASSET_DIR / 'urdf/SundayA1_full_2dof/robot.urdf',
+        urdf_or_path=ASSET_DIR / 'urdf/SundayA1_full_2dof_arm/robot.urdf',
         load_meshes=True,
         load_collision_meshes=True,
         root_node_name="/sunday_a1"
@@ -64,7 +64,7 @@ if __name__ == '__main__':
     #     print(f"Joint {i}: {name}")
     
     robot = pin.RobotWrapper.BuildFromMJCF(
-        filename=(ASSET_DIR / "mujoco/SundayA1_full_2dof/robot.xml").as_posix(),
+        filename=(ASSET_DIR / "mujoco/SundayA1_full_2dof_arm/robot.xml").as_posix(),
         root_joint=None,
     )
     configuration = pink.Configuration(robot.model, robot.data, default_qpos)

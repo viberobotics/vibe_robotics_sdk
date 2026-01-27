@@ -11,6 +11,6 @@ if __name__ == '__main__':
     cfg = load_config(args.config)
     motor_manager = MotorControllerManager(cfg.real_config.n_motors, 
                                            cfg.real_config.motor_controllers, 
-                                           mode=2, 
+                                           mode=0, 
                                            calibration_file=cfg.real_config.calibration_file)
     motor_manager.calibrate()

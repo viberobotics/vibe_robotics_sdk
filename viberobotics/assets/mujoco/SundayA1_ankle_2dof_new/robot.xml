@@ -23,7 +23,7 @@
     <body name="base" pos="0 0 0.2125" quat="1 0 0 0" childclass="SundayA1_Mujoco">
       <freejoint name="floating_base"/>
       <site name="imu_site" pos="0 0 0" quat="1 0 0 0" size=".01"/>
-      <inertial pos="2.7095e-05 0.0575604 0.0537062" mass="0.460845" fullinertia="0.000633814 0.000946769 0.000831012 2.40779e-08 6.97121e-07 2.0973e-05"/>
+      <inertial pos="2.7095e-05 0.0575604 0.0537062" mass="0.80845" fullinertia="0.000633814 0.000946769 0.000831012 2.40779e-08 6.97121e-07 2.0973e-05"/>
       <!-- Part internal_weight_200g -->
       <geom type="mesh" class="visual" pos="-0.0244373 0.0729013 0.0940632" quat="2.22865e-16 -0.707107 0.707107 -2.22865e-16" mesh="internal_weight_200g" material="internal_weight_200g_material"/>
       <!-- <geom type="mesh" class="collision" pos="-0.0244373 0.0729013 0.0940632" quat="2.22865e-16 -0.707107 0.707107 -2.22865e-16" mesh="internal_weight_200g" material="internal_weight_200g_material"/> -->

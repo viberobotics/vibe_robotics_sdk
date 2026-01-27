@@ -14,6 +14,8 @@ import time
 from loop_rate_limiters import RateLimiter
 import mujoco, mujoco.viewer
 from pathlib import Path
+from viberobotics.motor.motor_controller_manager import MotorControllerManager
+from viberobotics.configs.config import load_config
 
 
 class Robot:
@@ -26,8 +28,8 @@ class Robot:
         )
         self.walk_config = WalkConfig(
             ssp_duration=0.7,
-            dsp_duration=0.09,
-            step_length=0.03,
+            dsp_duration=0.07,
+            step_length=0.04,
         )
         
         self.robot = pin.RobotWrapper.BuildFromMJCF(filename=self.config.xml_path, root_joint=None)
@@ -246,7 +248,7 @@ class Robot:
         
     
     def visualize(self):
-        visualizer = ViserVisualizer('/home/dcjs/dc/vibe/viberobotics-python/viberobotics/assets/urdf/SundayA1_ankle_2dof_new/robot.urdf')
+        visualizer = ViserVisualizer(get_asset_path('urdf/SundayA1_ankle_2dof_new/robot.urdf'))
         running = False
         start_button = visualizer.server.gui.add_button('start')
         @start_button.on_click
@@ -323,24 +325,60 @@ class Robot:
                     cur_q = data.qpos[7:].copy()
                     cur_qd = data.qvel[6:].copy()
                     tau = kp * (self.q[7:] - cur_q) - kd * cur_qd
-                    data.ctrl[:] = tau
+                    data.ctrl[:] = np.clip(tau, -4., 4.)
                     mujoco.mj_step(model, data)
                     viewer.sync()
     
+    def deploy(self):
+        cfg = load_config('sundaya1_real_config_half_2dof.yaml')
+        motor_manager = MotorControllerManager(
+            cfg.real_config.n_motors,
+            cfg.real_config.motor_controllers,
+            cfg.real_config.calibration_file,
+            mode=0
+        )
+        motor_manager.set_positions(cfg.default_qpos, 0, 50)
+        
+        input('start>')
+        
+        try:
+            dt = 0.06
+            rate_limiter = RateLimiter(frequency=1 / dt, warn=True)
+            self.fsm.start_walking = True
+            while True:
+                self.fsm.on_tick()
+
+                self.q = self.ik(IKTarget(
+                    left_foot_pos=self.fsm.stance.left_foot.position,
+                    right_foot_pos=self.fsm.stance.right_foot.position,
+                    com_pos=self.fsm.stance.com.position,
+                ))
+                
+                # rate_limiter_inner = RateLimiter(frequency=1 / 0.002, warn=True)
+                # for _ in range(int(dt / 0.002)):
+                #     duty = 32 * (self.q[7:] - motor_manager.get_state()[0]) - 1.5 * motor_manager.get_state()[1]
+                #     motor_manager.set_duty(duty * 200)
+                #     rate_limiter_inner.sleep()
+                
+                motor_manager.set_positions(self.q[7:], 0, 50)
+                rate_limiter.sleep()
+        except KeyboardInterrupt:
+            motor_manager.disable_torque()
+        
+        
+        
+    
 if __name__ == "__main__":
+    import argparse
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--mode', type=str, default='view', choices=['view', 'simulate', 'deploy'], help='Mode: view, simulate, deploy')
+    args = parser.parse_args()
+    
     robot = Robot()
-    # robot.visualize()
-    robot.simulate()
-    # print(com)
-    
-    # import mujoco, mujoco.viewer
-    # model = mujoco.MjModel.from_xml_path(xml_path)
-    # data = mujoco.MjData(model)
-    # data.qpos[7:] = 0.
-    # # data.site_xpos[model.site("my_point").id] = com
-    # mujoco.mj_step(model, data)
-    # with mujoco.viewer.launch_passive(model, data) as viewer:
-    #     while True:
-    #         # mujoco.mj_step(model, data)
-    #         viewer.sync()
-    
+    if args.mode == 'view':
+        robot.visualize()
+    elif args.mode == 'simulate':
+        robot.simulate()
+    elif args.mode == 'deploy':
+        robot.deploy()
