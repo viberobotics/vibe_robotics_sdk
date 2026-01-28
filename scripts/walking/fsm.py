@@ -115,8 +115,8 @@ class WalkingFSM:
             n1=(0, 0, 1),
             takeoff_clearance=0.01,
             landing_clearance=0.01,
-            s_takeoff=0.25,
-            s_landing=0.75,
+            s_takeoff=0.4,
+            s_landing=0.6,
         )
     
     def run_swing_foot(self):

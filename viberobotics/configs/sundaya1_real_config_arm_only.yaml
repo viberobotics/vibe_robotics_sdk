@@ -7,15 +7,15 @@ real:
     baudrate: 9600
   motor_controllers:
     - name: "leg"
-      motor_ids: [1, 2, 3, 4, 5, 11, 12, 13, 14, 15]
+      motor_ids: [1, 2, 3, 4, 5, 11, 12, 13, 14, 15, 21]
       serial_config:
         port: "/dev/ttyACM0"
         baudrate: 1000000
       sign_change: [1, 1, 1, 1, -1, 
-                    -1, 1, 1, 1, 1]
-      sim_idxs: [1, 2, 3, 4, 5,
-                 12, 13, 14, 15, 16]
-  calibration_file: "configs/sundaya1_real_calibration.yaml"
+                    -1, 1, 1, 1, 1, 1]
+      sim_idxs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  n_motors: 11
+  calibration_file: "configs/sundaya1_real_calibration_arm_only.yaml"
 control:
   kp_torque: 20
   kd_torque: 1
@@ -23,5 +23,5 @@ policy:
   model_path: "models/policy_leo.pt"
 default_qpos: [
   0, 0., 0, 0, 0,
-  0, -0., 0, 0, 0,
+  0, -0., 0, 0, 0, 0
 ]

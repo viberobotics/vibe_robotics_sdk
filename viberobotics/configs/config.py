@@ -86,7 +86,8 @@ def load_config(config_path, from_config_dir=True):
         policy_config=policy_cfg
     )
     config.sim_config.asset_path = (ASSET_DIR / cfg_dict['sim']['asset_path']).as_posix()
-    config.sim_config.urdf_path = (ASSET_DIR / cfg_dict['sim']['urdf_path']).as_posix()
+    if 'urdf_path' in cfg_dict['sim']:
+        config.sim_config.urdf_path = (ASSET_DIR / cfg_dict['sim']['urdf_path']).as_posix()
     config.policy_config.model_path = (ASSET_DIR / cfg_dict['policy']['model_path']).as_posix()
     return config
     

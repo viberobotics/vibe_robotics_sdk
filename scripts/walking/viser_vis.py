@@ -2,6 +2,7 @@ import viser
 from viser.extras import ViserUrdf
 import numpy as np
 from pathlib import Path
+import mujoco
 
 class ViserVisualizer:
     def __init__(self, urdf_path: str):
@@ -15,7 +16,17 @@ class ViserVisualizer:
             load_collision_meshes=False,
             root_node_name="/robot_base"
         )
-        self.viser_urdf.update_cfg(self._urdf_to_mj(np.zeros(12)))
+        print('mujoco joint order:')
+        model = mujoco.MjModel.from_xml_path('/home/dcjs/dc/vibe/viberobotics-python/viberobotics/assets/mujoco/SundayA1_full_2dof_arm_loco/scene.xml')
+        for i in range(model.njnt):
+            joint_name = model.joint(i).name
+            print(f"Joint {i}: {joint_name}")
+        print('urdf joint order:')
+        for i, name in enumerate(self.viser_urdf.get_actuated_joint_names()):
+            print(f"Joint {i}: {name}")
+        
+        self.njnt = len(self.viser_urdf.get_actuated_joint_names())
+        self.viser_urdf.update_cfg(self._urdf_to_mj(np.zeros(self.njnt)))
         self.server.scene.add_grid(
             "/grid",
             width=2,
@@ -42,15 +53,30 @@ class ViserVisualizer:
             color=color,
         )
         
+    # def _urdf_to_mj(self, q):
+    #     return np.array(q)[
+    #         [5, 4, 3, 2, 1, 0,
+    #         11, 10, 9, 8, 7, 6,]
+    #     ]
+    
+    # def _mj_to_urdf(self, q):
+    #     return np.array(q)[
+    #         [5, 4, 3, 2, 1, 0,
+    #         11, 10, 9, 8, 7, 6,]
+    #     ]
+        
     def _urdf_to_mj(self, q):
         return np.array(q)[
-            [5, 4, 3, 2, 1, 0,
-            11, 10, 9, 8, 7, 6,]
+            [0, 5, 4, 3, 2, 1,
+            11, 10, 9, 8, 7, 6,
+            16, 15, 14, 13, 12,
+            22, 21, 20, 19, 18, 17,]
         ]
     
     def _mj_to_urdf(self, q):
         return np.array(q)[
-            [5, 4, 3, 2, 1, 0,
-            11, 10, 9, 8, 7, 6,]
+            [0, 5, 4, 3, 2, 1,
+            11, 10, 9, 8, 7, 6,
+            16, 15, 14, 13, 12,
+            22, 21, 20, 19, 18, 17,]
         ]
-        
