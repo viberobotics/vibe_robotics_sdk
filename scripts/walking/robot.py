@@ -484,6 +484,7 @@ class Robot:
                     viewer.sync()
     def deploy_remote(self, host, is_sender):
         from remote import NumpySocket
+        cfg = load_config('sundaya1_real_config.yaml')
         if not is_sender:
             remote = NumpySocket(host="0.0.0.0", port=9000, is_sender=False)
             motor_manager = MotorControllerManager(
@@ -498,7 +499,6 @@ class Robot:
                 motor_manager.set_positions(q_recv, 0, 50)
         else:
             remote = NumpySocket(host=host, port=9000, is_sender=True)
-            cfg = load_config('sundaya1_real_config.yaml')
             remote.send(cfg.default_qpos)
             input('start>')
             self.fsm.set_cmd(WalkCommand.STRAIGHT)
