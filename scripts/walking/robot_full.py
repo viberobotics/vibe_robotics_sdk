@@ -491,6 +491,40 @@ class Robot:
                     mujoco.mj_step(model, data)
                     viewer.sync()
     
+    def deploy_remote(self, host, is_sender):
+        from scripts.walking.remote import NumpySocket
+        remote = NumpySocket(host="", port=9000, is_sender=True)
+        if not is_sender:
+            motor_manager = MotorControllerManager(
+                cfg.real_config.n_motors,
+                cfg.real_config.motor_controllers,
+                cfg.real_config.calibration_file,
+                mode=0
+            )
+            motor_manager.set_positions(cfg.default_qpos, 0, 50)
+            while True:
+                q_recv = remote.recv()
+                motor_manager.set_positions(q_recv, 0, 50)
+        else:
+            cfg = load_config('sundaya1_real_config.yaml')
+            remote.send(cfg.default_qpos)
+            input('start>')
+            self.fsm.set_cmd(WalkCommand.STRAIGHT)
+            dt = 0.03
+            rate_limiter = RateLimiter(frequency=1 / dt, warn=True)
+            self.fsm.start_walking = True
+            while True:
+                self.fsm.on_tick()
+
+                self.q = self.ik(IKTarget(
+                    left_foot_pose=self.fsm.stance.left_foot,
+                    right_foot_pose=self.fsm.stance.right_foot,
+                    com_pos=self.fsm.stance.com.position,
+                    heading=self.fsm.footstep_generator.ref_theta
+                ))
+                remote.send(self.q[7:])
+                rate_limiter.sleep()
+    
     def deploy(self):
         cfg = load_config('sundaya1_real_config.yaml')
         motor_manager = MotorControllerManager(
@@ -499,7 +533,7 @@ class Robot:
             cfg.real_config.calibration_file,
             mode=0
         )
-        motor_manager.set_positions(cfg.default_qpos, 0, 70)
+        motor_manager.set_positions(cfg.default_qpos, 0, 50)
         # motor_manager.set_kp_kd(32, 32)
         input('start>')
         self.fsm.set_cmd(WalkCommand.STRAIGHT)
@@ -577,6 +611,8 @@ if __name__ == "__main__":
     
     parser = argparse.ArgumentParser()
     parser.add_argument('--mode', type=str, default='view', choices=['view', 'simulate', 'deploy'], help='Mode: view, simulate, deploy')
+    parser.add_argument('--sender', action='store_true', help='Deploy via remote sender')
+    parser.add_argument('--host', type=str, default='', help='Remote host')
     args = parser.parse_args()
     
     robot = Robot()
@@ -586,3 +622,5 @@ if __name__ == "__main__":
         robot.simulate()
     elif args.mode == 'deploy':
         robot.deploy()
+    elif args.mode == "remote":
+        robot.deploy_remote(args.host, args.sender)
