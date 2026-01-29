@@ -128,15 +128,15 @@ def Rz(theta: float) -> np.ndarray:
 class Robot:
     def __init__(self):
         self.config = RobotConfig(
-            xml_path=get_asset_path('mujoco/SundayA1_ankle_2dof_b/robot.xml'),
-            left_foot_name='part_1_2',
-            right_foot_name='part_1',
-            foot_size=np.array([0.064, 0.09, 0.005]) * 2
+            xml_path=get_asset_path('mujoco/SundayA1_ankle_2dof_new/robot.xml'),
+            left_foot_name='sole0120',
+            right_foot_name='sole0120mir',
+            foot_size=np.array([0.035, 0.09, 0.005]) * 2
         )
         self.walk_config = WalkConfig(
             ssp_duration=0.7,
             dsp_duration=0.07,
-            step_length=0.02,
+            step_length=0.03,
         )
         
         self.robot = pin.RobotWrapper.BuildFromMJCF(filename=self.config.xml_path, root_joint=None)
@@ -200,7 +200,7 @@ class Robot:
         geoms = gmodel.geometryObjects
         name_to_gid = {g.name: i for i, g in enumerate(geoms)}
         print(name_to_gid)
-        left_foot_pos = self.robot.collision_data.oMg[2].translation.copy()
+        left_foot_pos = self.robot.collision_data.oMg[1].translation.copy()
         right_foot_pos = self.robot.collision_data.oMg[0].translation.copy()
         
         foot_spred = np.linalg.norm(left_foot_pos[0] - right_foot_pos[0]) / 2.0
@@ -229,8 +229,8 @@ class Robot:
             heading=ik_target.heading
         )
 
-        left_geom_name = "part_1_2_0"
-        right_geom_name = "part_1_0"
+        left_geom_name = self.config.left_foot_name + "_0"
+        right_geom_name = self.config.right_foot_name + "_0"
 
         model = self.robot.model
         gmodel = self.robot.collision_model
@@ -381,7 +381,7 @@ class Robot:
     
     
     def visualize(self):
-        visualizer = ViserVisualizer(get_asset_path('urdf/SundayA1_ankle_2dof_b/robot.urdf'))
+        visualizer = ViserVisualizer(get_asset_path('urdf/SundayA1_ankle_2dof_new/robot.urdf'))
         running = False
         start_button = visualizer.server.gui.add_button('start')
         @start_button.on_click
@@ -484,6 +484,46 @@ class Robot:
                     viewer.sync()
     
     def deploy(self):
+        from flask import Flask, jsonify
+        import threading
+        app = Flask(__name__)
+
+        GLOBAL_STATE = {"direction": "straight"}
+
+        @app.route("/")
+        def index():
+            return """
+            <html>
+            <body>
+                <select onchange="update(this.value)">
+                    <option value="straight">straight</option>
+                    <option value="left">left</option>
+                    <option value="right">right</option>
+                </select>
+
+                <script>
+                    function update(val) {
+                        fetch("/set/" + val);
+                    }
+                </script>
+            </body>
+            </html>
+            """
+
+        @app.route("/set/<direction>")
+        def set_direction(direction):
+            GLOBAL_STATE["direction"] = direction
+            return jsonify(GLOBAL_STATE)
+
+        @app.route("/state")
+        def state():
+            return jsonify(GLOBAL_STATE)
+        def run_server():
+            # IMPORTANT: disable reloader or it will spawn another process/thread
+            app.run(host="0.0.0.0", port=8000, debug=False, use_reloader=False)
+        server_thread = threading.Thread(target=run_server, daemon=True)
+        server_thread.start()
+        
         cfg = load_config('sundaya1_real_config_half_2dof.yaml')
         motor_manager = MotorControllerManager(
             cfg.real_config.n_motors,
@@ -491,21 +531,27 @@ class Robot:
             cfg.real_config.calibration_file,
             mode=0
         )
-        motor_manager.set_positions(cfg.default_qpos, 0, 50)
+        motor_manager.set_positions(cfg.default_qpos, 0, 30)
         
         input('start>')
-        
         try:
-            dt = 0.06
+            dt = 0.03
             rate_limiter = RateLimiter(frequency=1 / dt, warn=True)
             self.fsm.start_walking = True
             while True:
+                if GLOBAL_STATE["direction"] == "straight":
+                    self.fsm.set_cmd(WalkCommand.STRAIGHT)
+                elif GLOBAL_STATE["direction"] == "left":
+                    self.fsm.set_cmd(WalkCommand.LEFT)
+                elif GLOBAL_STATE["direction"] == "right":
+                    self.fsm.set_cmd(WalkCommand.RIGHT)
                 self.fsm.on_tick()
 
                 self.q = self.ik(IKTarget(
-                    left_foot_pos=self.fsm.stance.left_foot.position,
-                    right_foot_pos=self.fsm.stance.right_foot.position,
+                    left_foot_pose=self.fsm.stance.left_foot,
+                    right_foot_pose=self.fsm.stance.right_foot,
                     com_pos=self.fsm.stance.com.position,
+                    heading=self.fsm.footstep_generator.ref_theta
                 ))
                 
                 # rate_limiter_inner = RateLimiter(frequency=1 / 0.002, warn=True)
@@ -514,7 +560,7 @@ class Robot:
                 #     motor_manager.set_duty(duty * 200)
                 #     rate_limiter_inner.sleep()
                 
-                motor_manager.set_positions(self.q[7:], 0, 50)
+                motor_manager.set_positions(self.q[7:], 0, 80)
                 rate_limiter.sleep()
         except KeyboardInterrupt:
             motor_manager.disable_torque()

@@ -44,7 +44,7 @@ class WalkingFSM:
             step_length=walk_config.step_length,
             foot_spread=robot_params.foot_spred,
             initial_y=robot_params.foot_y,
-            steering_strength=np.deg2rad(5.)
+            steering_strength=np.deg2rad(3.)
         )
         self.cmd = WalkCommand.STRAIGHT
     
@@ -130,8 +130,8 @@ class WalkingFSM:
             duration=self.ssp_duration,
             n0=(0, 0, 1),
             n1=(0, 0, 1),
-            takeoff_clearance=0.01,
-            landing_clearance=0.01,
+            takeoff_clearance=0.03,
+            landing_clearance=0.03,
             s_takeoff=0.25,
             s_landing=0.75,
         )
@@ -242,6 +242,10 @@ class WalkingFSM:
         com_fl = world_xy_to_fl(com_xy)
         comd_fl = world_xyvel_to_fld(comd_xy)
         comdd_fl = world_xyvel_to_fld(comdd_xy)
+        
+        omega = np.sqrt(9.81 / h)   # h = com height you already use
+        S_dcm = np.array([[1.0, 1.0 / omega, 0.0]])
+        
 
         # Goal: use your swing_target position but expressed in (f,l)
         # (You may later want a different goal, e.g. mid-support or capture-point ref,
@@ -262,11 +266,11 @@ class WalkingFSM:
         self.l_mpc = LinearPredictiveControl(
             A, B, C, D, e[1],
             x_init=np.array([com_fl[1], comd_fl[1], comdd_fl[1]]),
-            x_goal=np.array([goal_fl[1] * 0.1, 0., 0.]),
+            x_goal=np.array([goal_fl[1] * 0.2, 0., 0.]),
             nb_steps=nb_preview_steps,
             wxt=1.,
             wu=0.01,
-            wxc=5.
+            wxc=3.
         )
 
         self.f_mpc.solve()

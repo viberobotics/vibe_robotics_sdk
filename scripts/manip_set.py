@@ -4,9 +4,52 @@ from viberobotics.configs.config import load_config
 import argparse
 import numpy as np
 from numpy import array
+import time
+import threading
+
+from flask import Flask, jsonify, redirect, url_for
+
+app = Flask(__name__)
+
+# global variable you can poll
+GLOBAL_STATE = {"press": False}
+
+@app.route("/")
+def index():
+    return """
+    <html>
+        <body>
+            <h1>Button: {}</h1>
+            <form action="/press" method="post">
+                <button style="width:100vw;height:100vh;font-size:10vw;">PRESS</button>
+            </form>
+        </body>
+    </html>
+    """.format(GLOBAL_STATE["press"])
+
+
+@app.route("/press", methods=["POST"])
+def press():
+    GLOBAL_STATE["press"] = True
+    return redirect(url_for("index"))
+
+
+@app.route("/state")
+def state():
+    return jsonify(GLOBAL_STATE)
+def run_server():
+    # IMPORTANT: disable reloader or it will spawn another process/thread
+    app.run(host="0.0.0.0", port=8000, debug=False, use_reloader=False)
+
+def poll_state():
+    while not GLOBAL_STATE["press"]:
+        continue
+    GLOBAL_STATE["press"] = False  
 
 if __name__ == '__main__':
-    config_name = 'sundaya1_real_config_arm_only.yaml'
+    server_thread = threading.Thread(target=run_server, daemon=True)
+    server_thread.start()
+    config_name = 'sundaya1_real_config.yaml'
     config = load_config(config_name)
     
     motor_manager = MotorControllerManager(
@@ -15,27 +58,53 @@ if __name__ == '__main__':
         calibration_file=config.real_config.calibration_file,
         mode=0
     )
+    motor_manager.set_kp_kd(32, 32)
     motor_manager.set_positions(config.default_qpos, 0, 30)
     
     input('start>')
     
     
     poses = [
-        array([ 0.36662149,  0.82067966, -1.25633025, -0.72250485, -0.04295135,
-        0.00766993, -0.00306797,  0.00460196,  0.00306797, -0.00306797,
-       -0.00153399]),
-        array([ 0.35741758,  0.82067966, -1.25633025, -0.72403884,  0.96027207,
-        0.00766993, -0.00306797,  0.00460196,  0.00306797, -0.00306797,
-       -0.00153399]),
-        array([ 0.35895157,  0.82221365, -1.25633025, -0.72557282,  0.26231074,
-        0.00766993, -0.00306797,  0.00460196,  0.00306797, -0.00306797,
-       -0.00153399]),
-        array([-0.02914572, -0.92499042, -1.25633025,  0.93879628,  0.26077676,
-        0.00766993, -0.00306797,  0.00460196,  0.00306797, -0.00306797,
-       -0.00153399]),
-        array([-0.02914572, -0.92345643, -1.25633025,  0.91885448,  0.96487403,
-        0.00766993, -0.00306797,  0.00460196,  0.00306797, -0.00306797,
-       -0.00153399])
+        np.array([ 3.12625289e+00,  1.63982558e+00,  0.00000000e+00,  3.05262089e-01,
+        3.06797028e-03,  0.00000000e+00,  0.00000000e+00,  1.53398514e-03,
+        1.53398514e-03,  1.53398514e-03, -3.06797028e-03,  4.60195541e-03,
+        1.53398514e-03,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
+       -1.53398514e-03, -1.53398514e-03, -3.06797028e-03, -3.06797028e-03,
+        1.53398514e-03,  1.53398514e-03, -1.53398514e-03]),
+        np.array([ 3.12625289e+00,  1.64135957e+00,  0.00000000e+00,  3.06796074e-01,
+        4.60195541e-03, -3.95766973e-01,  0.00000000e+00,  3.06797028e-03,
+        1.53398514e-03,  1.53398514e-03, -3.06797028e-03,  4.60195541e-03,
+        1.53398514e-03,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
+       -1.53398514e-03, -1.53398514e-03, -3.06797028e-03, -3.06797028e-03,
+        1.53398514e-03,  1.53398514e-03, -1.53398514e-03]),
+        np.array([ 3.12625289e+00,  1.63982558e+00,  1.53398514e-03,  3.06796074e-01,
+        4.60195541e-03, -7.66992569e-03,  0.00000000e+00,  3.06797028e-03,
+        1.53398514e-03,  1.53398514e-03, -3.06797028e-03,  4.60195541e-03,
+        3.06797028e-03,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
+       -1.53398514e-03, -1.53398514e-03, -3.06797028e-03, -3.06797028e-03,
+        1.53398514e-03,  1.53398514e-03, -1.53398514e-03]),
+        np.array([ 1.61834979e+00,  2.30097771e-02,  1.34990215e-01, -4.27980661e-01,
+        1.53398514e-03, -7.66992569e-03,  0.00000000e+00,  1.53398514e-03,
+        4.60195541e-03,  1.53398514e-03, -1.53398514e-03,  4.60195541e-03,
+        4.60195541e-03,  0.00000000e+00, -1.53398514e-03,  0.00000000e+00,
+       -1.53398514e-03, -1.53398514e-03, -3.06797028e-03,  3.06797028e-03,
+        3.06797028e-03,  4.60195541e-03,  0.00000000e+00]),
+        np.array([ 0.05368924, -1.52324295, -0.06749511,  0.3558836 , -0.17487383,
+       -0.00766993,  0.        ,  0.00306797,  0.00153399,  0.00306797,
+       -0.00306797,  0.00460196,  0.00766993,  0.        , -0.00153399,
+        0.        , -0.00153399, -0.00306797, -0.00306797,  0.00306797,
+        0.00460196,  0.00460196, -0.00153399]),
+        array([ 0.05368924, -1.52170897, -0.06596112,  0.35281563, -0.17640781,
+       -0.17487383,  0.        ,  0.00306797,  0.00153399,  0.00306797,
+       -0.00460196,  0.00460196,  0.00766993,  0.        , -0.00153399,
+        0.        , -0.00153399, -0.00306797, -0.00306797,  0.00306797,
+        0.00460196,  0.00460196, -0.00153399]),
+        array([ 0.05368924,  0.13038826,  0.08436894, -0.04295135, -0.18100977,
+        0.00613594,  0.00153399,  0.00306797, -0.        ,  0.00306797,
+       -0.00460196,  0.00613594,  0.00766993,  0.        , -0.00153399,
+        0.        , -0.00153399, -0.00460196, -0.00306797,  0.00306797,
+        0.00460196,  0.00306797, -0.00153399])
+        
     ]
     
     # motor_manager.disable_torque()
@@ -44,8 +113,24 @@ if __name__ == '__main__':
     #     q = motor_manager.get_state()[0]
     #     print('Current positions:', repr(q))
     
-    for pose in poses:
-        input('>')
-        motor_manager.set_positions(pose, 0, 30)
+    timings = [
+        0,
+        0.5,
+        -1,
+        0.5,
+        0.5,
+        -1,
+        0.5
+    ]
     
-    motor_manager.disable_torque()
+    while True:
+        for pose, timing in zip(poses, timings):
+            if timing < 0:
+                # input('>')
+                poll_state()
+            else:
+                time.sleep(timing)
+            motor_manager.set_positions(pose, 0, 30)
+        motor_manager.set_positions(config.default_qpos, 0, 30)
+        poll_state()
+    # motor_manager.disable_torque()

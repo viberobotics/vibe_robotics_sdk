@@ -205,3 +205,140 @@ class LinearPredictiveControl(object):
         Total computation time taken by MPC computations.
         """
         return self.build_time + self.solve_time
+    
+class LinearPredictiveControlOutput:
+    """
+    Same as your LinearPredictiveControl, but costs can track an OUTPUT y = S x
+    instead of tracking x directly.
+
+    - constraints stay the same: C x_k + D u_k <= e_k
+    - dynamics stay the same: x_{k+1} = A x_k + B u_k
+    - costs:
+        terminal: ||y_N - y_goal||^2 with weight wyt
+        running:  sum ||y_k - y_goal||^2 with weight wyc
+        control:  sum ||u_k||^2 with weight wu
+    """
+
+    def __init__(self, A, B, C, D, e, x_init, y_goal, nb_steps,
+                 S, wyt=None, wyc=None, wu=1e-3):
+        assert C is not None or D is not None, "use LQR for unconstrained case"
+        assert wu > 0., "non-negative control weight needed for regularization"
+        assert wyt is not None or wyc is not None, "set either wyt or wyc"
+
+        self.A = A
+        self.B = B
+        self.C = C
+        self.D = D
+        self.e = e
+
+        self.S = S  # output matrix (y = S x)
+        self.y_goal = y_goal
+
+        self.x_init = x_init
+        self.nb_steps = nb_steps
+
+        self.u_dim = B.shape[1]
+        self.x_dim = A.shape[1]
+        self.y_dim = S.shape[0]
+
+        self.U_dim = self.u_dim * nb_steps
+
+        self.wu = wu
+        self.wyt = wyt
+        self.wyc = wyc
+
+        self.P = None
+        self.q = None
+        self.G = None
+        self.h = None
+        self.U = None
+        self.__X = None
+        self.build_time = None
+        self.solve_time = None
+
+        self.build()
+
+    def build(self):
+        t_build_start = time()
+
+        phi = eye(self.x_dim)
+        psi = zeros((self.x_dim, self.U_dim))
+
+        G_list, h_list = [], []
+        # For running output cost we will stack S*phi and S*psi
+        yphi_list, ypsi_list = [], []
+
+        for k in range(self.nb_steps):
+            # Loop invariant: x_k = psi * U + phi * x_init
+            if self.wyc is not None:
+                yphi_list.append(self.S @ phi)   # maps x_init -> y_k
+                ypsi_list.append(self.S @ psi)   # maps U -> y_k
+
+            C = self.C[k] if type(self.C) is list else self.C
+            D = self.D[k] if type(self.D) is list else self.D
+            e = self.e[k] if type(self.e) is list else self.e
+
+            G = zeros((e.shape[0], self.U_dim))
+            h = e if C is None else e - dot(dot(C, phi), self.x_init)
+
+            if D is not None:
+                G[:, k * self.u_dim:(k + 1) * self.u_dim] = D
+            if C is not None:
+                G += dot(C, psi)
+
+            G_list.append(G)
+            h_list.append(h)
+
+            # propagate
+            phi = dot(self.A, phi)
+            psi = dot(self.A, psi)
+            psi[:, self.u_dim * k:self.u_dim * (k + 1)] = self.B
+
+        # Base QP regularization on U
+        P = self.wu * eye(self.U_dim)
+        q = zeros(self.U_dim)
+
+        # Terminal output cost: y_N = S x_N, and x_N = psi U + phi x_init
+        if self.wyt is not None and self.wyt > 1e-10:
+            yN_init = self.S @ (phi @ self.x_init)          # y from x_init
+            yN_U = self.S @ psi                              # y from U
+            c = yN_init - self.y_goal
+
+            P += self.wyt * (yN_U.T @ yN_U)
+            q += self.wyt * (c.T @ yN_U)
+
+        # Running output cost over k = 0..N-1
+        if self.wyc is not None and self.wyc > 1e-10:
+            YPhi = vstack(yphi_list)                         # (N*y_dim, x_dim)
+            YPsi = vstack(ypsi_list)                         # (N*y_dim, U_dim)
+            Y_goal = hstack([self.y_goal] * self.nb_steps)   # (N*y_dim,)
+
+            c = (YPhi @ self.x_init) - Y_goal
+            P += self.wyc * (YPsi.T @ YPsi)
+            q += self.wyc * (c.T @ YPsi)
+
+        self.P = P
+        self.q = q
+        self.G = vstack(G_list)
+        self.h = hstack(h_list)
+
+        self.build_time = time() - t_build_start
+
+    def solve(self, **kwargs):
+        t_solve_start = time()
+        kwargs['solver'] = 'osqp'
+        U = solve_qp(self.P, self.q, self.G, self.h, **kwargs)
+        self.U = U.reshape((self.nb_steps, self.u_dim))
+        self.solve_time = time() - t_solve_start
+
+    @property
+    def X(self):
+        if self.__X is not None:
+            return self.__X
+        assert self.U is not None, "call solve() first"
+        X = zeros((self.nb_steps + 1, self.x_dim))
+        X[0] = self.x_init
+        for k in range(self.nb_steps):
+            X[k + 1] = dot(self.A, X[k]) + dot(self.B, self.U[k])
+        self.__X = X
+        return X

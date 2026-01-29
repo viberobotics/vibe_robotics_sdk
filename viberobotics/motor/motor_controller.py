@@ -49,6 +49,7 @@ class MotorController:
                         raise GroupAddParamFailedException()
                 scs_comm_result = self.groupSyncRead.txRxPacket()
                 if scs_comm_result != COMM_SUCCESS:
+                    print('scs_comm_result:', scs_comm_result)
                     raise GroupSyncReadFailedException(f'failed: {self.motor_ids}')
                 agg = []
                 init = False

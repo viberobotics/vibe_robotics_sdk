@@ -24,7 +24,7 @@ if __name__ == '__main__':
         
     ]
     
-    motor_manager.disable_torque()
+    motor_manager.controllers_mapping['arm'].disable_torque()
     while True:
         x = input('>')
         if x == 'q':
