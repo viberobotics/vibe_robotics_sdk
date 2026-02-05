@@ -45,3 +45,35 @@ Finally, when all poses are recorded, it can be played back with:
 ```
 motor_manager.set_positions(pose, 0, 30)
 ```
+
+## Controlling the robot in PWM mode
+The `MotorControllerManager` also provides control for PWM mode (mode 2). Under this mode, the duty cycle is controlled instead of the motor positions. A minimal example of running under PWM mode can be found in `scripts/pd_stand.py`. The motor controller manager can be initialized in PWM mode by simply modifying the `mode` parameter:
+```
+motor_manager = MotorControllerManager(
+    config.real_config.n_motors,
+    config.real_config.motor_controllers, 
+    calibration_file=config.real_config.calibration_file, 
+    mode=2
+)
+```
+Usually, PWM mode is desired if you want to have a custom motion profile. This script uses a classic PD controller. We provide easy PID control with the `PIDController` class. 
+```
+controller = PIDController(kp, 0, kd)
+```
+In the control loop, we can poll the motor controller manager for the position and speed of the motors
+```
+q, dq = motor_manager.get_state()
+```
+The motor state observation is used to update the PID controller to obtain duty.
+```
+duty = controller.update(
+    setpoint=default_qpos,
+    measurement=q,
+    derivative=-dq,
+)
+```
+Finally, the duty can be sent to the motors:
+```
+motor_manager.set_duty(duty)
+```
+Note: the duty should be an integer between -1000 and 1000 indicating the duty cycle. Each increment of the duty variable increments the duty cycle of the motors by 0.1%.
