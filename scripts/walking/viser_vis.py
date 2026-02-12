@@ -16,14 +16,14 @@ class ViserVisualizer:
             load_collision_meshes=False,
             root_node_name="/robot_base"
         )
-        print('mujoco joint order:')
-        model = mujoco.MjModel.from_xml_path('/home/danielchen09/dc/vibe/viberobotics-python/viberobotics/assets/mujoco/SundayA1_ankle_2dof_new/scene.xml')
-        for i in range(model.njnt):
-            joint_name = model.joint(i).name
-            print(f"Joint {i - 1}: {joint_name}")
-        print('urdf joint order:')
-        for i, name in enumerate(self.viser_urdf.get_actuated_joint_names()):
-            print(f"Joint {i}: {name}")
+        # print('mujoco joint order:')
+        # model = mujoco.MjModel.from_xml_path('/home/danielchen09/dc/vibe/viberobotics-python/viberobotics/assets/mujoco/SundayA1_ankle_2dof_new/scene.xml')
+        # for i in range(model.njnt):
+        #     joint_name = model.joint(i).name
+        #     print(f"Joint {i - 1}: {joint_name}")
+        # print('urdf joint order:')
+        # for i, name in enumerate(self.viser_urdf.get_actuated_joint_names()):
+        #     print(f"Joint {i}: {name}")
         
         self.njnt = len(self.viser_urdf.get_actuated_joint_names())
         self.viser_urdf.update_cfg(self._urdf_to_mj(np.zeros(self.njnt)))

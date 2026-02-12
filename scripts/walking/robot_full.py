@@ -472,7 +472,7 @@ class Robot:
         rate_limiter = RateLimiter(frequency=1/dt, warn=False)
         kp = 200
         kd = 10
-        self.fsm.set_cmd(WalkCommand.LEFT)
+        # self.fsm.set_cmd(WalkCommand.LEFT)
         with mujoco.viewer.launch_passive(model, data) as viewer:
             while True:
                 self.fsm.on_tick()
