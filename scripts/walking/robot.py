@@ -136,7 +136,7 @@ class Robot:
         self.walk_config = WalkConfig(
             ssp_duration=0.7,
             dsp_duration=0.07,
-            step_length=0.03,
+            step_length=0.05,
         )
         
         self.robot = pin.RobotWrapper.BuildFromMJCF(filename=self.config.xml_path, root_joint=None)
@@ -215,10 +215,10 @@ class Robot:
         
     def ik(self,
        ik_target: IKTarget,
-       max_iters: int = 500,
+       max_iters: int = 300,
        tol: float = 1e-3,
        damping: float = 3e-2,
-       step: float = 0.01,
+       step: float = 0.05,
        update_heading: bool=False) -> np.ndarray:
 
         offset = np.array([ik_target.com_pos[0], ik_target.com_pos[1], 0.])
@@ -427,12 +427,14 @@ class Robot:
             com_marker.position = self.fsm.stance.com.position
 
             
+            start_time = time.time()
             self.q = self.ik(IKTarget(
                 left_foot_pose=self.fsm.stance.left_foot,
                 right_foot_pose=self.fsm.stance.right_foot,
                 com_pos=self.fsm.stance.com.position,
                 heading=self.fsm.footstep_generator.ref_theta
             ), update_heading=(heading_counter % heading_update == 0))
+            print(f"IK solve time: {time.time() - start_time:.3f}s")
             heading_counter += 1
             
             if self.fsm.stance_foot is not None:
@@ -633,12 +635,14 @@ class Robot:
                     self.fsm.set_cmd(WalkCommand.RIGHT)
                 self.fsm.on_tick()
 
+                start_time = time.time()
                 self.q = self.ik(IKTarget(
                     left_foot_pose=self.fsm.stance.left_foot,
                     right_foot_pose=self.fsm.stance.right_foot,
-                    com_pos=self.fsm.stance.com.position,
+                    com_pos=self.fsm.stance.com.position * np.array([0.6, 1., 1.]),
                     heading=self.fsm.footstep_generator.ref_theta
                 ))
+                print(f"IK solve time: {time.time() - start_time:.3f}s")
                 
                 # rate_limiter_inner = RateLimiter(frequency=1 / 0.002, warn=True)
                 # for _ in range(int(dt / 0.002)):
@@ -646,8 +650,8 @@ class Robot:
                 #     motor_manager.set_duty(duty * 200)
                 #     rate_limiter_inner.sleep()
                 
-                motor_manager.set_positions(self.q[7:], 0, 80)
-                rate_limiter.sleep()
+                motor_manager.set_positions(self.q[7:], 0, 50)
+                # rate_limiter.sleep()
         except KeyboardInterrupt:
             motor_manager.disable_torque()
         

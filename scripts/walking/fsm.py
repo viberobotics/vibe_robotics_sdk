@@ -6,6 +6,7 @@ import numpy as np
 from generate_footsteps import FootstepGenerator
 from scipy.spatial.transform import Rotation as R
 from scipy.spatial.transform import Slerp
+import time
 
 class WalkingFSM:
     def __init__(self, 
@@ -23,6 +24,7 @@ class WalkingFSM:
         self.next_footstep = 2
         
         self.dt = 0.03
+        self.mpc_interval = 3 * self.dt
         self.stance = Stance(
             left_foot=Foot(
                 FootType.LEFT,
@@ -143,10 +145,11 @@ class WalkingFSM:
         self.swing_foot.T = new_pose.T
     
     def update_mpc(self, dsp_duration, ssp_duration):
-        nb_preview_steps = 20
+        start_time = time.time()
+        nb_preview_steps = 10
 
         # Planning timestep for the jerk-integrator model
-        T = 3 * self.dt
+        T = self.mpc_interval
         nb_init_dsp_steps = int(round(dsp_duration / T))
         nb_init_ssp_steps = int(round(ssp_duration / T))
         nb_dsp_steps = int(round(self.dsp_duration / T))
@@ -258,7 +261,7 @@ class WalkingFSM:
         self.f_mpc = LinearPredictiveControl(
             A, B, C, D, e[0],
             x_init=np.array([com_fl[0], comd_fl[0], comdd_fl[0]]),
-            x_goal=np.array([goal_fl[0] + 0.02, 0., 0.]),
+            x_goal=np.array([goal_fl[0] + 0.08, 0., 0.]),
             nb_steps=nb_preview_steps,
             wxt=2.,
             wu=0.01,
@@ -278,6 +281,7 @@ class WalkingFSM:
         self.f_mpc.solve()
         self.l_mpc.solve()
         self.preview_time = 0.0
+        print('MPC solve time: {:.3f}s'.format(time.time() - start_time))
         
     def update_mpc_old(self, dsp_duration, ssp_duration):
         nb_preview_steps = 20
@@ -355,7 +359,7 @@ class WalkingFSM:
         #     (self.swing_foot.position[1] + self.stance_foot.position[1]) / 2.0,
         #     self.stance.com.position[2]
         # ])
-        if self.preview_time >= 3 * self.dt:
+        if self.preview_time >= self.mpc_interval:
             if self.state == WalkState.DSP:
                 self.update_mpc(self.rem_time, self.ssp_duration)
             elif self.state == WalkState.SSP:
