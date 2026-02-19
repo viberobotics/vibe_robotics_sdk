@@ -379,8 +379,29 @@ class Robot:
 
         return q + np.concatenate([offset, np.zeros(self.nq - 3)])
     
-    
-    
+    def _get_targets(self):
+        com_pos_nominal = self.fsm.stance.com.position
+        theta = self.fsm.footstep_generator.ref_theta
+        fwd = np.array([np.sin(theta), np.cos(theta)])     # world XY forward
+        lat = np.array([np.cos(theta), -np.sin(theta)])    # world XY lateral/right
+        center_xy = 0.5 * (
+            self.fsm.stance.left_foot.position[:2]
+            + self.fsm.stance.right_foot.position[:2]
+        )
+        d_xy = com_pos_nominal[:2] - center_xy
+        d_f = d_xy @ fwd
+        d_l = d_xy @ lat
+        lateral_scale = 0.6 if self.fsm.cmd == WalkCommand.STRAIGHT else 0.8
+        forward_scale = 1.
+        com_xy = center_xy + (forward_scale * d_f) * fwd + (lateral_scale * d_l) * lat
+        com_pos = np.array([com_xy[0], com_xy[1], com_pos_nominal[2]])
+        return IKTarget(
+            left_foot_pose=self.fsm.stance.left_foot,
+            right_foot_pose=self.fsm.stance.right_foot,
+            com_pos=com_pos,
+            heading=self.fsm.footstep_generator.ref_theta
+        )
+        
     def visualize(self):
         visualizer = ViserVisualizer(get_asset_path('urdf/SundayA1_ankle_2dof_new/robot.urdf'))
         running = False
@@ -426,33 +447,13 @@ class Robot:
             
             # Scale COM only along heading-lateral direction, not world X.
             # Use mid-foot as local origin so turning/global translation does not distort it.
-            com_pos_nominal = self.fsm.stance.com.position
-            theta = self.fsm.footstep_generator.ref_theta
-            fwd = np.array([np.sin(theta), np.cos(theta)])     # world XY forward
-            lat = np.array([np.cos(theta), -np.sin(theta)])    # world XY lateral/right
-            center_xy = 0.5 * (
-                self.fsm.stance.left_foot.position[:2]
-                + self.fsm.stance.right_foot.position[:2]
-            )
-            d_xy = com_pos_nominal[:2] - center_xy
-            d_f = d_xy @ fwd
-            d_l = d_xy @ lat
-            lateral_scale = 0.6
-            com_xy = center_xy + d_f * fwd + (lateral_scale * d_l) * lat
-            com_pos = np.array([com_xy[0], com_xy[1], com_pos_nominal[2]])
-            left_foot_marker.position = self.fsm.stance.left_foot.position
-            right_foot_marker.position = self.fsm.stance.right_foot.position
-            com_marker.position = com_pos
-
-            
+            ik_target = self._get_targets()
+            left_foot_marker.position = ik_target.left_foot_pose.position
+            right_foot_marker.position = ik_target.right_foot_pose.position
+            com_marker.position = ik_target.com_pos
             start_time = time.time()
-            self.q = self.ik(IKTarget(
-                left_foot_pose=self.fsm.stance.left_foot,
-                right_foot_pose=self.fsm.stance.right_foot,
-                com_pos=com_pos,
-                heading=self.fsm.footstep_generator.ref_theta
-            ), update_heading=(heading_counter % heading_update == 0))
-            print(f"IK solve time: {time.time() - start_time:.3f}s")
+            self.q = self.ik(ik_target, update_heading=(heading_counter % heading_update == 0))
+            # print(f"IK solve time: {time.time() - start_time:.3f}s")
             heading_counter += 1
             
             if self.fsm.stance_foot is not None:
@@ -502,9 +503,12 @@ class Robot:
                     data.ctrl[:] = np.clip(tau, -4., 4.)
                     mujoco.mj_step(model, data)
                     viewer.sync()
+    
     def deploy_remote(self, host, is_sender):
         from remote import NumpySocket
         cfg = load_config('sundaya1_real_config_half_2dof.yaml')
+        heading_update = 60
+        heading_counter = 0
         if not is_sender:
             remote = NumpySocket(host="0.0.0.0", port=9000, is_sender=False)
             motor_manager = MotorControllerManager(
@@ -518,8 +522,19 @@ class Robot:
                 q_recv = remote.recv()
                 motor_manager.set_positions(q_recv, 0, 50)
         else:
-            state = {"direction": "straight"}
-            self.deploy_server(state)
+            import pygame
+            
+            pygame.init()
+            pygame.joystick.init()
+            use_joystick = pygame.joystick.get_count() > 0
+            print('Using joystick:', use_joystick)
+            
+            if use_joystick:
+                joystick = pygame.joystick.Joystick(0)
+                joystick.init()
+            else:
+                state = {"direction": "straight"}
+                self.deploy_server(state)
             remote = NumpySocket(host=host, port=9000, is_sender=True)
             remote.send(cfg.default_qpos)
             input('start>')
@@ -529,21 +544,39 @@ class Robot:
             self.fsm.start_walking = True
             while True:
                 self.fsm.on_tick()
-                if state["direction"] == "straight":
-                    self.fsm.set_cmd(WalkCommand.STRAIGHT)
-                elif state["direction"] == "left":
-                    self.fsm.set_cmd(WalkCommand.LEFT)
-                elif state["direction"] == "right":
-                    self.fsm.set_cmd(WalkCommand.RIGHT)
-                elif state["direction"] == "stop":
-                    self.fsm.set_cmd(WalkCommand.STOP)
+                
+                if use_joystick:
+                    for event in pygame.event.get():
+                        if event.type == pygame.JOYAXISMOTION:
+                            x_axis = joystick.get_axis(0)
+                            y_axis = joystick.get_axis(1)
+                            if abs(x_axis) < 0.2:
+                                x_axis = 0
+                            if abs(y_axis) < 0.2:
+                                y_axis = 0
+                            if y_axis < 0:
+                                self.fsm.set_cmd(WalkCommand.STRAIGHT)
+                            elif y_axis > 0:
+                                self.fsm.set_cmd(WalkCommand.STOP)
+                            if x_axis < 0:
+                                self.fsm.set_cmd(WalkCommand.LEFT)
+                            elif x_axis > 0:
+                                self.fsm.set_cmd(WalkCommand.RIGHT)
+                else:
+                    if state["direction"] == "straight":
+                        self.fsm.set_cmd(WalkCommand.STRAIGHT)
+                    elif state["direction"] == "left":
+                        self.fsm.set_cmd(WalkCommand.LEFT)
+                    elif state["direction"] == "right":
+                        self.fsm.set_cmd(WalkCommand.RIGHT)
+                    elif state["direction"] == "stop":
+                        self.fsm.set_cmd(WalkCommand.STOP)
 
-                self.q = self.ik(IKTarget(
-                    left_foot_pose=self.fsm.stance.left_foot,
-                    right_foot_pose=self.fsm.stance.right_foot,
-                    com_pos=self.fsm.stance.com.position,
-                    heading=self.fsm.footstep_generator.ref_theta
-                ))
+                print(self.fsm.cmd)
+
+                ik_target = self._get_targets()
+                
+                self.q = self.ik(ik_target, update_heading=(heading_counter % heading_update == 0))
                 remote.send(self.q[7:])
                 rate_limiter.sleep()
             
@@ -657,7 +690,7 @@ class Robot:
                     com_pos=com_pos,
                     heading=self.fsm.footstep_generator.ref_theta
                 ))
-                print(f"IK solve time: {time.time() - start_time:.3f}s")
+                # print(f"IK solve time: {time.time() - start_time:.3f}s")
                 
                 # rate_limiter_inner = RateLimiter(frequency=1 / 0.002, warn=True)
                 # for _ in range(int(dt / 0.002)):
@@ -757,7 +790,7 @@ class Robot:
                     com_pos=com_pos,
                     heading=self.fsm.footstep_generator.ref_theta
                 ))
-                print(f"IK solve time: {time.time() - start_time:.3f}s")
+                # print(f"IK solve time: {time.time() - start_time:.3f}s")
                 
                 # rate_limiter_inner = RateLimiter(frequency=1 / 0.002, warn=True)
                 # for _ in range(int(dt / 0.002)):

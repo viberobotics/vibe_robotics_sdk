@@ -49,13 +49,20 @@ class WalkingFSM:
             steering_strength=np.deg2rad(5.)
         )
         self.cmd = WalkCommand.STRAIGHT
+        self.last_cmd = WalkCommand.STRAIGHT
+        self.tick = 0
+        self.last_change_cmd_tick = 0
     
     def set_cmd(self, cmd: WalkCommand):
         if self.cmd == WalkCommand.STOP and cmd != WalkCommand.STOP:
             self.start_walking = True
         self.cmd = cmd
+        if self.cmd != self.last_cmd:
+            self.last_cmd = self.cmd
+            self.last_change_cmd_tick = self.tick
     
     def on_tick(self):
+        self.tick += 1
         if self.state == WalkState.STAND:
             return self.run_standing()
         elif self.state == WalkState.DSP:
@@ -257,11 +264,26 @@ class WalkingFSM:
         # but this keeps your structure unchanged.)
         goal_fl = world_xy_to_fl(self.swing_target.position[:2])
 
+        fwd_adjust = 0.05 if self.cmd == WalkCommand.STRAIGHT else 0.02
+        if self.tick - self.last_change_cmd_tick < 30:  # for the first 10 ticks after a command change, add a forward bias to encourage responsiveness
+            if self.cmd == WalkCommand.RIGHT:
+                if self.last_cmd == WalkCommand.STRAIGHT:
+                    fwd_adjust = 0.09
+                elif self.last_cmd == WalkCommand.LEFT:
+                    fwd_adjust = 0.125
+                elif self.last_cmd == WalkCommand.STOP:
+                    fwd_adjust = 0.05
+            elif self.cmd == WalkCommand.LEFT:
+                if self.last_cmd == WalkCommand.STRAIGHT:
+                    fwd_adjust = 0.15
+                elif self.last_cmd == WalkCommand.RIGHT:
+                    fwd_adjust = 0.0
+        
         # MPC in forward axis
         self.f_mpc = LinearPredictiveControl(
             A, B, C, D, e[0],
             x_init=np.array([com_fl[0], comd_fl[0], comdd_fl[0]]),
-            x_goal=np.array([goal_fl[0] + 0.05, 0., 0.]),
+            x_goal=np.array([goal_fl[0] + fwd_adjust, 0., 0.]),
             nb_steps=nb_preview_steps,
             wxt=2.,
             wu=0.01,
@@ -281,7 +303,7 @@ class WalkingFSM:
         self.f_mpc.solve()
         self.l_mpc.solve()
         self.preview_time = 0.0
-        print('MPC solve time: {:.3f}s'.format(time.time() - start_time))
+        # print('MPC solve time: {:.3f}s'.format(time.time() - start_time))
         
     def update_mpc_old(self, dsp_duration, ssp_duration):
         nb_preview_steps = 20

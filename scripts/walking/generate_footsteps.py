@@ -74,8 +74,10 @@ class FootstepGenerator:
                 dtheta = 0.
             elif cmd == WalkCommand.RIGHT:
                 dtheta = self.steering_strength
+                d = 0.
             elif cmd == WalkCommand.LEFT:
                 dtheta = -self.steering_strength
+                d = 0.
         
         self.ref_x += d * self._forward(self.ref_theta)[0]
         self.ref_y += d * self._forward(self.ref_theta)[1]
