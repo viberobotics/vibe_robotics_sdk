@@ -46,7 +46,7 @@ class WalkingFSM:
             step_length=walk_config.step_length,
             foot_spread=robot_params.foot_spred,
             initial_y=robot_params.foot_y,
-            steering_strength=np.deg2rad(5.)
+            steering_strength=np.deg2rad(4.)
         )
         # self.cmd = WalkCommand.STRAIGHT
         # self.last_cmd = WalkCommand.STRAIGHT
@@ -262,10 +262,14 @@ class WalkingFSM:
         # Goal: use your swing_target position but expressed in (f,l)
         # (You may later want a different goal, e.g. mid-support or capture-point ref,
         # but this keeps your structure unchanged.)
-        goal_fl = world_xy_to_fl(self.swing_target.position[:2])
+        mid_xy = 0.5*(self.stance_foot.position[:2] + self.swing_foot.position[:2])
+        goal_fl = world_xy_to_fl(mid_xy)
+        # goal_fl = world_xy_to_fl(self.swing_target.position[:2])
 
-        fwd_adjust = 0.05 if self.cmd[0] > 0.1 else 0.02
-        fwd_adjust *= np.sign(self.cmd[0]) * 1.2
+        fwd_adjust = 0.06 if np.abs(self.cmd[0]) > 0.1 else 0.005
+        fwd_adjust *= np.sign(self.cmd[0]) * 0.7
+        fwd_adjust *= 2
+        print(fwd_adjust)
         # if self.cmd[2] > 0.1:
         #     fwd_adjust = 0.0
 

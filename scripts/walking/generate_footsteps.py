@@ -72,6 +72,8 @@ class FootstepGenerator:
         d_lat  = float(cmd[1]) * self.step_length   # or a separate lateral_step_length
         dtheta = float(cmd[2]) * self.steering_strength
 
+        self.ref_theta = wrap_pi(self.ref_theta + dtheta)
+
         fwd = self._forward(self.ref_theta)   # unit vector
         rgt = self._right(self.ref_theta)     # unit vector (robot-right)
 
@@ -80,8 +82,6 @@ class FootstepGenerator:
         # If you want cmd[1] > 0 to mean "move right", add rgt.
         self.ref_x += d_fwd * fwd[0] - d_lat * rgt[0]
         self.ref_y += d_fwd * fwd[1] - d_lat * rgt[1]
-
-        self.ref_theta = wrap_pi(self.ref_theta + dtheta)
 
         # place the swing foot at +/- foot_spread about the reference, in the current heading
         lat_sign = -1 if next_foot == FootType.LEFT else +1

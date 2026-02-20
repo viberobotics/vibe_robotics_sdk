@@ -413,8 +413,8 @@ class Robot:
         d_f = d_xy @ fwd
         # d_f = np.clip(d_f, -0.01, 0.01)
         d_l = d_xy @ lat
-        lateral_scale = 0.8 if self.fsm.cmd[0] < 0.1 or self.cmd[1] > 0.1 else 0.6
-        forward_scale = 0.9 if self.fsm.cmd[2] > 0.1 else 1.
+        lateral_scale = 0.8 if np.abs(self.fsm.cmd[0]) < 0.1 or np.abs(self.cmd[1]) > 0.1 else 0.6
+        forward_scale = 1.
         self.d_f = d_f
         com_xy = center_xy + (forward_scale * d_f) * fwd + (lateral_scale * d_l) * lat
         com_pos = np.array([com_xy[0], com_xy[1], com_pos_nominal[2]])
@@ -450,6 +450,8 @@ class Robot:
         dt = 0.03
         rate_limiter = RateLimiter(frequency=1/dt, warn=False)
         line_segments = []
+        com_line_segments = []
+        com_pos_list = []
         heading_update = 60
         heading_counter = 0
         
@@ -492,13 +494,23 @@ class Robot:
             right_foot_marker.position = ik_target.right_foot_pose.position
             com_marker.position = ik_target.com_pos
             start_time = time.time()
-            q, success = self.ik(ik_target, update_heading=(heading_counter % heading_update == 0), tol=0.01)
-            success = success and np.linalg.norm(q - self.q) < 0.2
-            if success:
-                self.q = q
+            self.q, success = self.ik(ik_target, update_heading=(heading_counter % heading_update == 0), tol=0.01)
+            
             success_indicator.label = f'IK solve success: {success}'
             # print(f"IK solve time: {time.time() - start_time:.3f}s")
             heading_counter += 1
+            
+            com_pos_list.append(ik_target.com_pos)
+            com_pos_list = com_pos_list[-100:]
+            if len(com_pos_list) > 2:
+                com_line_segments.append([com_pos_list[-2], com_pos_list[-1]])
+                visualizer.server.scene.add_line_segments(
+                    '/com_trail',
+                    points=np.array(com_line_segments),
+                    colors=np.array([0, 0, 255]),
+                    line_width=2.0,
+                )
+            
             
             if self.fsm.stance_foot is not None:
                 contact_verts = self.fsm.stance_foot.get_scaled_contact_area(0.8)
@@ -512,11 +524,10 @@ class Robot:
                 visualizer.server.scene.add_line_segments(
                     '/contact_area',
                     points=np.concatenate(line_segments, axis=0),
-                    colors=np.array([0, 1, 1]),
+                    colors=np.array([0, 0, 0]),
                     line_width=3.0,
                 )
-            if success:
-                visualizer.set_state(self.q)
+            visualizer.set_state(self.q)
             rate_limiter.sleep()
     
     def simulate(self):
