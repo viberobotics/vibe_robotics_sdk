@@ -86,13 +86,13 @@ class Demo(Robot):
             cfg.real_config.calibration_file, 
             mode=0
         )
-        leader_cfg = load_config('sundaya1_real_config_short_arm.yaml')
-        leader_motor_manager = MotorControllerManager(
-            leader_cfg.real_config.n_motors, 
-            leader_cfg.real_config.motor_controllers, 
-            leader_cfg.real_config.calibration_file, 
-            mode=0
-        )
+        # leader_cfg = load_config('sundaya1_real_config_short_arm.yaml')
+        # leader_motor_manager = MotorControllerManager(
+        #     leader_cfg.real_config.n_motors, 
+        #     leader_cfg.real_config.motor_controllers, 
+        #     leader_cfg.real_config.calibration_file, 
+        #     mode=0
+        # )
         motor_manager.set_positions(cfg.default_qpos, 0, 30)
         self.wait_for_button(JoystickButton.START.value)
         print('starting')
@@ -119,9 +119,9 @@ class Demo(Robot):
                     break
                 else:
                     motor_manager.play_recording(get_asset_path('motions/stand_up_motion.json'))
-            elif button == JoystickButton.Y:
-                self.teleop(leader_motor_manager, motor_manager)
-                pass
+            # elif button == JoystickButton.Y:
+            #     self.teleop(leader_motor_manager, motor_manager)
+            #     pass
     
 if __name__ == '__main__':
     demo = Demo()
