@@ -18,6 +18,27 @@ pip install -e .
 - Python 3.10
 - See `requirements.txt` and `environment.yml` for full dependency lists
 
+# Setting up the robot
+
+## Calibration
+
+Place the robot in the standing position shown below, then run:
+
+![standing](images/standing.png)
+
+```bash
+python scripts/calibrate.py
+```
+
+The script will prompt you for motor IDs to zero (comma-separated). Press Enter to zero all motors.
+
+## PD Stand
+
+Drives the robot to the default standing pose using a PD controller. Run after calibration to verify the configuration before walking.
+
+```bash
+python scripts/pd_stand.py
+```
 
 # Walking
 

@@ -5,7 +5,7 @@ import argparse
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config', type=str, default="sundaya1_real_config.yaml", help='Path to config file')
+    parser.add_argument('--config', type=str, default="sundaya1_real_config_short.yaml", help='Path to config file')
     parser.add_argument('--mode', type=int, default=0, help='Mode: 0 for position control')
     args = parser.parse_args()
 
