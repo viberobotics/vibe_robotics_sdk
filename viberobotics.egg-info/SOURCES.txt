@@ -1,4 +1,5 @@
 LICENSE
+README.md
 setup.py
 viberobotics/__init__.py
 viberobotics/constants.py
