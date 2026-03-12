@@ -1,6 +1,6 @@
-# viberobotics-python
+# Vibe Robotics SDK
 
-Python package for Vibe Robotics.
+The Vibe Robotics SDK is a Python package that provides a simple and developer-friendly interface for controlling Vibe Robotics platforms. It enables developers to access robot states, send control commands, and build applications for robotics research, education, and embodied AI development.
 
 ## Installation
 
@@ -18,9 +18,10 @@ pip install -e .
 - Python 3.10
 - See `requirements.txt` and `environment.yml` for full dependency lists
 
-# Setting up the robot
 
-## Calibration
+## Setting up the robot
+
+### Calibration
 
 Place the robot in the standing position shown below, then run:
 
@@ -32,7 +33,7 @@ python scripts/calibrate.py
 
 The script will prompt you for motor IDs to zero (comma-separated). Press Enter to zero all motors.
 
-## PD Stand
+### PD Stand
 
 Drives the robot to the default standing pose using a PD controller. Run after calibration to verify the configuration before walking.
 
@@ -44,7 +45,23 @@ python scripts/pd_stand.py
 
 This document covers how to run the walking scripts and how walking is implemented. All scripts are located under `scripts/walking/`. The main script for development is `robot.py`; the full hardware demo script is `demo.py`.
 
-## Running the Demo
+## Visualization
+
+The visualizer is useful for development — it shows the joint angle commands from the walking controller with no physics. Connect a joystick and run:
+
+```bash
+python scripts/walking/robot.py --mode view
+```
+
+## Simulation
+
+Test the walking controller in MuJoCo simulation:
+
+```bash
+python scripts/walking/robot.py --mode simulate
+```
+
+## Real World Demo
 
 ### Prerequisites
 
@@ -85,22 +102,6 @@ Perform these steps in order:
 | Y | Teleoperation mode (press START to exit) |
 | Left joystick | XY linear velocity |
 | Right joystick | Yaw rate |
-
-## Visualization
-
-The visualizer is useful for development — it shows the joint angle commands from the walking controller with no physics. Connect a joystick and run:
-
-```bash
-python scripts/walking/robot.py --mode view
-```
-
-## Simulation
-
-Test the walking controller in MuJoCo simulation:
-
-```bash
-python scripts/walking/robot.py --mode simulate
-```
 
 ## Implementation
 
