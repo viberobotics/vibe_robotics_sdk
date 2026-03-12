@@ -4,14 +4,6 @@ Python package for Vibe Robotics.
 
 ## Installation
 
-### Option 1: conda environment file (recommended)
-
-```bash
-conda env create -f environment.yml
-conda activate viberobotics
-```
-
-### Option 2: manual setup
 
 ```bash
 conda create -n vibe python=3.10
