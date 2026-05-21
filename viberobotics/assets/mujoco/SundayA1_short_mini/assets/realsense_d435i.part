@@ -1,0 +1,14 @@
+{
+    "configuration": "default",
+    "documentId": "abb4f560a69b6a1a18b9f249",
+    "documentMicroversion": "0e3210ef33191d9e36ef57fb",
+    "documentVersion": "78670eb7a488930b68bec8fb",
+    "elementId": "6afe89a1297b58a167407d79",
+    "fullConfiguration": "default",
+    "id": "M7g4LPRplXgDEy05n",
+    "isStandardContent": false,
+    "name": "realsense_d435i <1>",
+    "partId": "JFb",
+    "suppressed": false,
+    "type": "Part"
+}

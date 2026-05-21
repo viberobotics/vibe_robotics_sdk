@@ -12,6 +12,6 @@ if __name__ == '__main__':
     
     model = mujoco.MjModel.from_xml_path(mujoco_path)
     print('Mujoco joint order:')
-    for i in range(model.njnt):
+    for i in range(1, model.njnt):
         joint_name = model.joint(i).name
-        print(f"Joint {i}: {joint_name}")
+        print(f"Joint {i - 1}: {joint_name}")
