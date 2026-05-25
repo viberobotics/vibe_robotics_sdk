@@ -23,6 +23,7 @@ Perform these steps in order:
    ```bash
    python scripts/run_receiver.py
    ```
+   (If you are using the mini version, add `--config sundaya1_real_config_short_mini.yaml`)
 4. Connect a joystick controller to your laptop
 5. (Optional) To enable teleoperation, connect the leader robot to the laptop
 6. Get the Raspberry Pi's IP address with `ip addr`
@@ -30,7 +31,10 @@ Perform these steps in order:
    ```bash
    python scripts/walking/demo.py --remote --host <raspberry pi ip>
    ```
+   (If you are using the mini version, add `--config sundaya1_real_config_short_mini.yaml`)
+   
    Add `--teleop` to enable teleoperation.
+   
 8. Press Enter when you see `start>`
 
 ### Controls

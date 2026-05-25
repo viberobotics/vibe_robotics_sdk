@@ -83,8 +83,8 @@ class Demo(Robot):
             follower_motor_manager.set_raw_positions(full_q, 0, 30)
             time.sleep(0.03)
     
-    def run(self, is_remote, host):
-        cfg = load_config('sundaya1_real_config_short.yaml')
+    def run(self, is_remote, host, config_path='sundaya1_real_config_short.yaml'):
+        cfg = load_config(config_path)
         motor_manager = MotorControllerManager(
             cfg.real_config.n_motors, 
             cfg.real_config.motor_controllers, 
@@ -138,7 +138,8 @@ if __name__ == '__main__':
     parser.add_argument('--remote', action='store_true', help='Whether to run in remote mode')
     parser.add_argument('--host', type=str, default='0.0.0.0', help='Host IP for remote mode')
     parser.add_argument('--teleop', action='store_true', help='Whether to run teleoperation demo')
+    parser.add_argument('--config', type=str, default='sundaya1_real_config_short.yaml', help='Path to configuration file')
     args = parser.parse_args()
     
     demo = Demo(enable_teleop=args.teleop)
-    demo.run(is_remote=args.remote, host=args.host)
+    demo.run(is_remote=args.remote, host=args.host, config_path=args.config)
